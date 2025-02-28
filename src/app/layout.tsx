@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "../style/global.css";
+import Link from "next/link";
+import BorderEffect from "../components/BorderEffect/BorderEffect";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +29,26 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div className="flex">
+          <nav className="flex flex-col w-[15%] justify-center items-center gap-6 relative">
+            <Link href="/sections/about" className="link">
+              <BorderEffect>About</BorderEffect>
+            </Link>
+            <Link href="/sections/education" className="link">
+              <BorderEffect>Education</BorderEffect>
+            </Link>
+            <Link href="/sections/experience" className="link">
+              <BorderEffect>Experience</BorderEffect>
+            </Link>
+            <Link href="/sections/project" className="link">
+              <BorderEffect>Projects</BorderEffect>
+            </Link>
+            <Link href="/sections/contact" className="link">
+              <BorderEffect>Contact</BorderEffect>
+            </Link>
+          </nav>
+          <div className="flex-auto">{children}</div>
+        </div>
       </body>
     </html>
   );

@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer components {
+  .link {
+    @apply w-full text-center text-[#36454F] font-bold;
+  }
+  .image-menu-option {
+    @apply w-[40px] h-[40px] block m-auto align-middle;
+  }
+  .custom-scrollbar {
+    @apply scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200 scrollbar-thumb-rounded;
+  }
+  .loader {
+    @apply w-8 h-8 border-4 border-teal-500 border-t-transparent rounded-full animate-spin;
+  }
+}
