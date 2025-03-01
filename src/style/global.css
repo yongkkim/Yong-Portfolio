@@ -24,13 +24,4 @@ body {
   .link {
     @apply w-full text-center text-[#36454F] font-bold;
   }
-  .image-menu-option {
-    @apply w-[40px] h-[40px] block m-auto align-middle;
-  }
-  .custom-scrollbar {
-    @apply scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200 scrollbar-thumb-rounded;
-  }
-  .loader {
-    @apply w-8 h-8 border-4 border-teal-500 border-t-transparent rounded-full animate-spin;
-  }
 }

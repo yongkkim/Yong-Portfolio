@@ -34,9 +34,6 @@ export default function RootLayout({
             <Link href="/sections/about" className="link">
               <BorderEffect>About</BorderEffect>
             </Link>
-            <Link href="/sections/education" className="link">
-              <BorderEffect>Education</BorderEffect>
-            </Link>
             <Link href="/sections/experience" className="link">
               <BorderEffect>Experience</BorderEffect>
             </Link>

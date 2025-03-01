@@ -1,14 +1,21 @@
-// store/useStore.ts
-"use client";
-
 import { create } from "zustand";
 
 interface StoreState {
   isClicked: boolean;
-  toggleIsClicked: (value: boolean) => void;
+  popupContent: { imgSrc: string; imgAlt: string; text: string } | null;
+  toggleIsClicked: (content?: {
+    imgSrc: string;
+    imgAlt: string;
+    text: string;
+  }) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
   isClicked: false,
-  toggleIsClicked: (value) => set({ isClicked: value }),
+  popupContent: null,
+  toggleIsClicked: (content) =>
+    set((state) => ({
+      isClicked: !state.isClicked,
+      popupContent: content ?? null, // Update popup content
+    })),
 }));
