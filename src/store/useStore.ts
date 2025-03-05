@@ -14,7 +14,7 @@ export const useStore = create<StoreState>((set) => ({
   isClicked: false,
   popupContent: null,
   toggleIsClicked: (content) =>
-    set((state) => ({
+    set((state: StoreState) => ({
       isClicked: !state.isClicked,
       popupContent: content ?? null, // Update popup content
     })),

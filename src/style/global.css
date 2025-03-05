@@ -17,11 +17,51 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+.stroke-text-sm {
+  text-shadow: -1px 0 #008f11, 0 1px #008f11, 1px 0 #008f11, 0 -1px #008f11;
+}
+
+.group .stroke-text-sm:hover {
+  text-shadow: -1px 0 #008f11, 0 1px #008f11, 1px 0 #008f11, 0 -1px #008f11;
+}
+
+.stroke-text-lg {
+  text-shadow: -2px 0 #003b00, 0 2px #003b00, 2px 0 #003b00, 0 -2px #003b00;
+}
+
+@keyframes moveText {
+  0% {
+    top: 40%; /* Start from the center */
+  }
+  100% {
+    top: 20px; /* Move to the top */
+  }
+}
+
+.moving-text {
+  animation: moveText 0.7s ease-out 1.3s forwards;
+  position: fixed; /* Ensure it's fixed in the viewport */
+  top: 40%; /* Center the h1 initially */
+  left: 50%;
 }
 
 @layer components {
   .link {
     @apply w-full text-center text-[#36454F] font-bold;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar-thumb {
+    background-color: gray;
+    border-radius: 8px;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
   }
 }

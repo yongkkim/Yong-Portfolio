@@ -17,7 +17,7 @@ export default function Popup({
   return (
     <motion.div
       key="popup"
-      className="fixed inset-0 bg-white bg-opacity-[0.65] z-40 flex items-center justify-center"
+      className="fixed inset-0 bg-white bg-opacity-[0.65] z-40 flex items-center justify-center cursor-pointer"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -30,7 +30,7 @@ export default function Popup({
         exit={{ scale: 0.8 }}
         transition={{ duration: 0.4 }}
       >
-        <div className="flex flex-col h-full p-[15px] overflow-auto">
+        <div className="flex flex-col h-full p-[15px] overflow-auto thin-scrollbar">
           <div className="w-full h-[70%] relative flex-shrink-0">
             <Image
               src={imgSrc}

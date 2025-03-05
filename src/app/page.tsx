@@ -1,5 +1,5 @@
-import About from "./sections/about/page"; // Directly import About content
+import ClientHome from "./clientHome";
 
 export default function Home() {
-  return <About />;
+  return <ClientHome />;
 }

@@ -1,13 +1,9 @@
 "use client";
 
 import { useStore } from "@/store/useStore";
-import AnimationEffect from "@/components/AnimationEffect/AnimationEffect";
+import AnimationEffect from "@/components/EmergingEffect/EmergingEffect";
 import FlipMotion from "@/components/FlipMotion/FlipMotion";
-import {
-  careerInfo,
-  collegeInfo,
-  beforeCollegeInfo,
-} from "@/constants/constants";
+import { aboutInto } from "@/constants/constants";
 
 export default function ClientAbout() {
   const { toggleIsClicked } = useStore();
@@ -15,31 +11,20 @@ export default function ClientAbout() {
   return (
     <AnimationEffect isPopup={true}>
       <div>
-        <h1 className="text-4xl font-bold text-center">
+        <h1 className="text-[35px] text-center">
           My Journey: High School, College, and Career
         </h1>
         <div className="flex justify-center gap-[130px] mt-12">
-          <FlipMotion
-            style="w-[200px] h-[200px]"
-            imgSrc="/myHighSchool.jpg"
-            imgAlt="Campus"
-            imgText="In High School"
-            handleClick={() => toggleIsClicked(beforeCollegeInfo)}
-          />
-          <FlipMotion
-            style="w-[200px] h-[200px]"
-            imgSrc="/campus.jpg"
-            imgAlt="Campus"
-            imgText="In College"
-            handleClick={() => toggleIsClicked(collegeInfo)}
-          />
-          <FlipMotion
-            style="w-[200px] h-[200px]"
-            imgSrc="/career.jpg"
-            imgAlt="Career"
-            imgText="In My Career"
-            handleClick={() => toggleIsClicked(careerInfo)}
-          />
+          {aboutInto.map((item) => (
+            <FlipMotion
+              key={item.imgText}
+              style="w-[200px] h-[200px]"
+              imgSrc={item.imgSrc}
+              imgAlt={item.imgAlt}
+              imgText={item.imgText}
+              handleClick={() => toggleIsClicked(item.popup)}
+            />
+          ))}
         </div>
       </div>
       <div></div>

@@ -1,18 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "../style/global.css";
-import Link from "next/link";
-import BorderEffect from "../components/BorderEffect/BorderEffect";
+import { JetBrains_Mono } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const jetBrainsMono = JetBrains_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,26 +16,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <div className="flex">
-          <nav className="flex flex-col w-[15%] justify-center items-center gap-6 relative">
-            <Link href="/sections/about" className="link">
-              <BorderEffect>About</BorderEffect>
-            </Link>
-            <Link href="/sections/experience" className="link">
-              <BorderEffect>Experience</BorderEffect>
-            </Link>
-            <Link href="/sections/project" className="link">
-              <BorderEffect>Projects</BorderEffect>
-            </Link>
-            <Link href="/sections/contact" className="link">
-              <BorderEffect>Contact</BorderEffect>
-            </Link>
-          </nav>
-          <div className="flex-auto">{children}</div>
-        </div>
+      <body className={`${jetBrainsMono.className} antialiased bg-black`}>
+        <div className="flex-auto">{children}</div>
       </body>
     </html>
   );
