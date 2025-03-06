@@ -1,5 +1,6 @@
-import ClientHome from "./clientHome";
+// app/page.tsx
+import SectionContainer from "./sections/sectionContainer";
 
-export default function Home() {
-  return <ClientHome />;
+export default function HomePage() {
+  return <SectionContainer />;
 }

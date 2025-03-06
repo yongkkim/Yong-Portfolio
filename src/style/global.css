@@ -23,10 +23,6 @@ body {
   text-shadow: -1px 0 #008f11, 0 1px #008f11, 1px 0 #008f11, 0 -1px #008f11;
 }
 
-.group .stroke-text-sm:hover {
-  text-shadow: -1px 0 #008f11, 0 1px #008f11, 1px 0 #008f11, 0 -1px #008f11;
-}
-
 .stroke-text-lg {
   text-shadow: -2px 0 #003b00, 0 2px #003b00, 2px 0 #003b00, 0 -2px #003b00;
 }
@@ -63,5 +59,11 @@ body {
 
   .thin-scrollbar::-webkit-scrollbar-track {
     background: transparent;
+  }
+}
+
+@layer utilities {
+  .text-shadow-green {
+    text-shadow: -1px 0 #008f11, 0 1px #008f11, 1px 0 #008f11, 0 -1px #008f11;
   }
 }

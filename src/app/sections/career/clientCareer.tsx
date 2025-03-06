@@ -17,9 +17,9 @@ export default function ClientCareer() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-[15px] relative">
-      <EmergingEffect fullHeight={false}>
+      {/* <EmergingEffect fullHeight={false}>
         <h1 className="text-[35px] moving-text fixed">My Career</h1>
-      </EmergingEffect>
+      </EmergingEffect> */}
       <EmergingEffect
         key={index}
         flexDirection={"flex-col"}

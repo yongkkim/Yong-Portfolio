@@ -39,7 +39,7 @@ export default function TypingEffect({
       className="flex text-lg font-mono"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay: 2 }}
+      transition={{ duration: 0.5, delay: 1 }}
     >
       <h1 className={`text-white ${textSize} tracking-[-1px] stroke-text-lg`}>
         {text.slice(0, index)}

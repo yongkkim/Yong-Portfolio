@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../style/global.css";
 import { JetBrains_Mono } from "next/font/google";
+import SectionContainer from "./sections/sectionContainer";
 
 const jetBrainsMono = JetBrains_Mono({ subsets: ["latin"] });
 
@@ -17,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${jetBrainsMono.className} antialiased bg-black`}>
-        <div className="flex-auto">{children}</div>
+        {children}
       </body>
     </html>
   );

@@ -29,7 +29,7 @@ export default function Emergingffect({
     <motion.div
       className={`${
         fullHeight && `min-h-screen`
-      } bg-gray-100 flex ${flexDirection} items-center justify-center`}
+      } flex ${flexDirection} items-center justify-center`}
       initial={{ opacity: isAnimating ? 0 : 1 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1, delay: delay }}
