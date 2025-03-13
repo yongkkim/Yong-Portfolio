@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactElement, useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useStore } from "@/store/useStore";
 export default function SectionWithAnimation({
   id,
@@ -11,24 +11,37 @@ export default function SectionWithAnimation({
   children: React.ReactNode;
   //   animationClass: string;
 }) {
-  const { setSectionVisible } = useStore();
-
+  const { isVisibleSections, setSectionVisible } = useStore();
+  const sectionRef = useRef(null);
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          setSectionVisible(entry.target.id, entry.isIntersecting);
+          const sectionId = entry.target.id;
+
+          // Check if the section has already been marked as visible before
+          if (entry.isIntersecting && !isVisibleSections[sectionId]) {
+            setSectionVisible(sectionId, true);
+          }
         });
       },
-      { threshold: 0.8 }
+      { threshold: 0.5 }
     );
 
-    document.querySelectorAll("section").forEach((section) => {
-      observer.observe(section);
-    });
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
 
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, [isVisibleSections, setSectionVisible]);
 
-  return <section id={id}>{children}</section>;
+  return (
+    <section ref={sectionRef} id={id}>
+      {children}
+    </section>
+  );
 }

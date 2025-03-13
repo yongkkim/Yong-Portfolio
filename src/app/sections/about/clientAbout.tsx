@@ -6,9 +6,23 @@ import TypingEffect from "@/components/TypingEffect/TypingEffect";
 import { motion } from "framer-motion";
 import Emergingffect from "@/components/EmergingEffect/EmergingEffect";
 import TwinkleCircle from "@/components/TwinkleCircle/TwinkleCircle";
+import { aboutInto } from "@/constants/constants";
+import { useState } from "react";
+
+interface lineSegment {
+  type: string;
+  length: number;
+  x: number;
+  y: number;
+  angle: number;
+  isHoverable: boolean;
+  about: number;
+  isClicked: boolean;
+}
 
 export default function ClientAbout() {
-  const { toggleIsClicked, isVisibleSections } = useStore();
+  const { isClicked, clickedIndex, toggleIsClicked, isVisibleSections } =
+    useStore();
   const isVisible = isVisibleSections["about"];
 
   const lineSegments = [
@@ -27,9 +41,11 @@ export default function ClientAbout() {
       y: -91,
       angle: 0,
       isHoverable: true,
+      about: 3,
+      isClicked: false,
     }, // Third straight
     {
-      type: "straight",
+      type: "diagonal",
       length: 100,
       x: 214,
       y: 136,
@@ -37,12 +53,14 @@ export default function ClientAbout() {
       isHoverable: false,
     }, // Third diagonal
     {
-      type: "diagonal",
+      type: "straight",
       length: 100,
       x: 63,
       y: -20,
       angle: 0,
       isHoverable: true,
+      about: 2,
+      isClicked: false,
     }, // Second straight
     {
       type: "diagonal",
@@ -59,6 +77,8 @@ export default function ClientAbout() {
       y: 50,
       angle: 0,
       isHoverable: true,
+      about: 1,
+      isClicked: false,
     }, // First straight
     {
       type: "diagonal",
@@ -71,7 +91,6 @@ export default function ClientAbout() {
   ];
 
   return (
-    // <AnimationEffect isPopup={true}>
     <div className="min-h-screen flex flex-col w-full items-center relative">
       <video
         autoPlay
@@ -87,10 +106,19 @@ export default function ClientAbout() {
         <>
           <Menu direction="row" size="50" delay={0} />
           <div className="absolute top-[100px] left-[100px]">
-            <TypingEffect delay={1500} text={"ABOUT ME"} speed={150} />
+            <TypingEffect
+              delay={1500}
+              text={"ABOUT ME: A BULLISH TREND IN MY LIFE"}
+              speed={80}
+            />
           </div>
-          <Emergingffect>
-            <div className="flex justify-center items-center min-h-[inherit] pb-[45px]">
+          <Emergingffect isPopup={true} delay={1}>
+            <motion.div
+              initial={{ left: "25%" }}
+              animate={{ left: isClicked ? "100px" : "25%" }}
+              transition={{ duration: 0.5 }}
+              className="absolute flex justify-center items-center min-h-[inherit] pb-[45px]"
+            >
               {lineSegments.map((line, index) => (
                 <motion.div
                   key={index}
@@ -98,15 +126,39 @@ export default function ClientAbout() {
                   style={{
                     transform: `rotate(${line.angle}deg) translate(${line.x}px, ${line.y}px)`,
                   }}
+                  onClick={() =>
+                    line.about &&
+                    toggleIsClicked(true, index, aboutInto[line.about - 1])
+                  }
                 >
-                  {line.isHoverable && <TwinkleCircle />}
+                  {index === 0 && (
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 flex">
+                      <div
+                        className="w-[30px] border-white border-t-[2px] border-r-[2px] shadow-[0_0_6px_3px_rgba(0,143,17,0.6)]"
+                        style={{
+                          transform: "rotate(135deg) translate(-18px, -33px)",
+                        }}
+                      ></div>
+                      <div
+                        className="w-[30px] border-white border-b-[2px] border-r-[2px] shadow-[0_0_6px_3px_rgba(0,143,17,0.6)]"
+                        style={{
+                          transform: "rotate(-135deg) translate(3px, 12px)",
+                        }}
+                      ></div>
+                    </div>
+                  )}
+                  {line.isHoverable && line.about && (
+                    <TwinkleCircle
+                      label={aboutInto[line.about - 1].label}
+                      isClicked={clickedIndex === index}
+                    />
+                  )}
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </Emergingffect>
         </>
       )}
     </div>
-    // </AnimationEffect>
   );
 }

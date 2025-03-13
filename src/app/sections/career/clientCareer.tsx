@@ -5,22 +5,20 @@ import Experience from "@/components/Experience/Experience";
 import { experienceInfo } from "@/constants/constants";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import TypingEffect from "@/components/TypingEffect/TypingEffect";
 
 export default function ClientCareer() {
   const [index, setIndex] = useState(0);
-  const [animationDelay, setAnimationDelay] = useState(2);
-
-  // Set delay to 0 after the first render
-  useEffect(() => {
-    setAnimationDelay(0);
-  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-[15px] relative">
+      <div className="absolute top-[100px] left-[100px]">
+        <TypingEffect delay={1500} text={"My Career"} speed={150} />
+      </div>
       {/* <EmergingEffect fullHeight={false}>
         <h1 className="text-[35px] moving-text fixed">My Career</h1>
       </EmergingEffect> */}
-      <EmergingEffect
+      {/* <EmergingEffect
         key={index}
         flexDirection={"flex-col"}
         fullHeight={false}
@@ -55,7 +53,7 @@ export default function ClientCareer() {
             />
           </button>
         </div>
-      </EmergingEffect>
+      </EmergingEffect> */}
     </div>
   );
 }

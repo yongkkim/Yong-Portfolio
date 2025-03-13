@@ -5,11 +5,16 @@ interface StoreState {
   popupContent: { imgSrc: string; imgAlt: string; text: string } | null;
   sectionIndex: number;
   isVisibleSections: Record<string, boolean>;
-  toggleIsClicked: (content?: {
-    imgSrc: string;
-    imgAlt: string;
-    text: string;
-  }) => void;
+  clickedIndex: number | null;
+  toggleIsClicked: (
+    isClicked: boolean,
+    index?: number | null,
+    content?: {
+      imgSrc: string;
+      imgAlt: string;
+      text: string;
+    }
+  ) => void;
   setSectionIndex: (updater: (prevIndex: number) => number) => void;
   setSectionVisible: (sectionId: string, visible: boolean) => void;
 }
@@ -19,10 +24,12 @@ export const useStore = create<StoreState>((set) => ({
   popupContent: null,
   sectionIndex: 0,
   isVisibleSections: {} as Record<string, boolean>,
+  clickedIndex: null,
 
-  toggleIsClicked: (content) =>
+  toggleIsClicked: (isClicked, index, content) =>
     set((state: StoreState) => ({
-      isClicked: !state.isClicked,
+      isClicked: isClicked,
+      clickedIndex: index,
       popupContent: content ?? null, // Update popup content
     })),
   setSectionIndex: (updater) =>

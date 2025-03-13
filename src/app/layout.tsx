@@ -3,7 +3,10 @@ import "../style/global.css";
 import { JetBrains_Mono } from "next/font/google";
 import SectionContainer from "./sections/sectionContainer";
 
-const jetBrainsMono = JetBrains_Mono({ subsets: ["latin"] });
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${jetBrainsMono.className} antialiased bg-black`}>
+      <body className={`${jetBrainsMono.variable} antialiased bg-black`}>
         {children}
       </body>
     </html>

@@ -37,7 +37,6 @@ export default function Emergingffect({
       {isPopup && isClicked && popupContent && (
         <AnimatePresence>
           <Popup
-            handleClick={() => toggleIsClicked()}
             imgSrc={popupContent.imgSrc}
             imgAlt={popupContent.imgAlt}
             text={popupContent.text}
