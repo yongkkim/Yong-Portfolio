@@ -61,6 +61,13 @@ body {
   .thin-scrollbar::-webkit-scrollbar-track {
     background: transparent;
   }
+
+  .menu-background {
+    @apply bg-white/5 bg-[radial-gradient(#008f11_7%,transparent_10%)] bg-[size:10px_10px];
+  }
+  .mobile-menu-background {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
 }
 
 @layer utilities {

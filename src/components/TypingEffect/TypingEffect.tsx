@@ -4,12 +4,10 @@ import { useState, useEffect } from "react";
 
 export default function TypingEffect({
   text,
-  textSize = "text-5xl",
   speed = 100,
   delay = 0,
 }: {
   text: string;
-  textSize?: string;
   speed?: number;
   delay?: number;
 }) {
@@ -41,13 +39,15 @@ export default function TypingEffect({
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: 1 }}
     >
-      <h1 className={`text-white ${textSize} tracking-[-1px] stroke-text-lg`}>
+      <h1
+        className={`text-white text-5xl max-lg:text-3xl max-md:text-2xl max-[475px]:text-xl tracking-[-1px] stroke-text-lg`}
+      >
         {text.slice(0, index)}
       </h1>
       <motion.span
         animate={{ opacity: [0, 1, 0] }}
         transition={{ repeat: Infinity, duration: 0.5 }}
-        className={`text-white ${textSize}`}
+        className={`text-white text-5xl max-lg:text-3xl`}
       >
         |
       </motion.span>

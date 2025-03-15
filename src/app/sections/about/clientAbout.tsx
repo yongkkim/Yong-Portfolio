@@ -97,7 +97,7 @@ export default function ClientAbout() {
         loop
         muted
         playsInline
-        className="absolute top-0 left-0 w-full h-full opacity-[0.4] z-[-1] object-cover"
+        className="absolute top-0 left-0 w-full h-full opacity-[0.3] z-[-1] object-cover"
       >
         <source src="/aboutBG.mp4" type="video/mp4" />
         Your browser does not support the video tag.

@@ -2,7 +2,7 @@
 
 import LineEffect from "@/components/LineEffect/LineEffect";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { useStore } from "@/store/useStore";
 
 export default function Menu({
@@ -14,23 +14,54 @@ export default function Menu({
   size?: string;
   delay?: number;
 }) {
-  const { setSectionIndex } = useStore();
-  const [flexDirection, setFlexDirection] = useState(direction);
-  const [menuSize, setMenuSize] = useState(size);
-  const [menuDelay, setDelay] = useState(delay);
+  const { setSectionIndex, isMobileClicked, setIsMobileClicked, isMobile } =
+    useStore();
+  const [flexDirection, setFlexDirection] = useState<string>(
+    direction || "flex-col"
+  );
+  const [menuSize, setMenuSize] = useState<string>(size);
+  const [menuDelay, setDelay] = useState<number>(delay);
+  const [lineDelay, setLineDelay] = useState<number>(1);
+  const [menuBG, setMenuBG] = useState<string>("menu-background");
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
-    setDelay(delay);
-    setFlexDirection(direction === "col" ? "flex-col" : "");
     setMenuSize(size !== "" ? `w-[${size}%]` : "");
   }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+
+      if (isMobileClicked) {
+        setFlexDirection("flex-col");
+        setMenuBG("mobile-menu-background");
+        setLineDelay(0);
+      } else if (width < 768) {
+        setFlexDirection("flex-row");
+      } else {
+        setFlexDirection(direction === "col" ? "flex-col" : "");
+      }
+    };
+
+    handleResize(); // Set initial state
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isMobileClicked, direction]);
 
   const handleSectionClick = (index: number, id: string) => {
     setSectionIndex(() => index);
     scrollToSection(id);
+    if (isMobile) {
+      setIsMobileClicked();
+    }
+  };
+
+  const handleLineDelay = () => {
+    return isMobileClicked ? 0 : 1;
   };
   return (
     <nav className={`flex flex-col items-center h-2/3 ${menuSize}`}>
@@ -38,31 +69,31 @@ export default function Menu({
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         transition={{ duration: 0.3, ease: "easeInOut", delay: menuDelay }}
-        className={`flex ${flexDirection} gap-10 w-full h-full bg-white/5 p-[15px] rounded-[10px] bg-[radial-gradient(#008f11_10%,transparent_10%)] bg-[size:10px_10px]`}
+        className={`flex ${flexDirection} gap-10 w-full h-full p-[15px] rounded-[10px] ${menuBG} max-md:gap-[1.5rem]`}
       >
         <button onClick={() => handleSectionClick(0, "home")} className="link">
-          <LineEffect delay={1}>Home</LineEffect>
+          <LineEffect delay={handleLineDelay()}>Home</LineEffect>
         </button>
         <button onClick={() => handleSectionClick(1, "about")} className="link">
-          <LineEffect delay={1}>About</LineEffect>
+          <LineEffect delay={handleLineDelay()}>About</LineEffect>
         </button>
         <button
           onClick={() => handleSectionClick(2, "career")}
           className="link"
         >
-          <LineEffect delay={1}>Career</LineEffect>
+          <LineEffect delay={handleLineDelay()}>Career</LineEffect>
         </button>
         <button
           onClick={() => handleSectionClick(3, "projects")}
           className="link"
         >
-          <LineEffect delay={1}>Projects</LineEffect>
+          <LineEffect delay={handleLineDelay()}>Projects</LineEffect>
         </button>
         <button
           onClick={() => handleSectionClick(4, "contact")}
           className="link"
         >
-          <LineEffect delay={1}>Contact</LineEffect>
+          <LineEffect delay={handleLineDelay()}>Contact</LineEffect>
         </button>
       </motion.div>
     </nav>
