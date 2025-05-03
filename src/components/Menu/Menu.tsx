@@ -4,6 +4,7 @@ import LineEffect from "@/components/LineEffect/LineEffect";
 import { motion } from "framer-motion";
 import { useState, useEffect, useLayoutEffect } from "react";
 import { useStore } from "@/store/useStore";
+import clsx from "clsx";
 
 export default function Menu({
   direction = "col", //col or row
@@ -14,15 +15,20 @@ export default function Menu({
   size?: string;
   delay?: number;
 }) {
-  const { setSectionIndex, isMobileClicked, setIsMobileClicked, isMobile } =
-    useStore();
+  // const { isVisibleSections, setSectionVisible } = useStore();
+  const {
+    sectionIndex,
+    setSectionIndex,
+    isMobileClicked,
+    setIsMobileClicked,
+    isMobile,
+  } = useStore();
   const [flexDirection, setFlexDirection] = useState<string>(
     direction || "flex-col"
   );
   const [menuSize, setMenuSize] = useState<string>(size);
-  const [menuDelay, setDelay] = useState<number>(delay);
-  const [lineDelay, setLineDelay] = useState<number>(1);
   const [menuBG, setMenuBG] = useState<string>("menu-background");
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -32,13 +38,16 @@ export default function Menu({
   }, []);
 
   useEffect(() => {
+    setCurrentIndex(sectionIndex);
+  }, [sectionIndex]);
+
+  useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
 
       if (isMobileClicked) {
         setFlexDirection("flex-col");
         setMenuBG("mobile-menu-background");
-        setLineDelay(0);
       } else if (width < 768) {
         setFlexDirection("flex-row");
       } else {
@@ -46,7 +55,7 @@ export default function Menu({
       }
     };
 
-    handleResize(); // Set initial state
+    handleResize();
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
@@ -64,34 +73,60 @@ export default function Menu({
     return isMobileClicked ? 0 : 1;
   };
   return (
-    <nav className={`flex flex-col items-center h-2/3 ${menuSize}`}>
+    <nav className={`flex flex-col items-center ${menuSize}`}>
       <motion.div
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
-        transition={{ duration: 0.3, ease: "easeInOut", delay: menuDelay }}
+        transition={{ duration: 0.3, ease: "easeInOut", delay: delay }}
         className={`flex ${flexDirection} gap-10 w-full h-full p-[15px] rounded-[10px] ${menuBG} max-md:gap-[1.5rem]`}
       >
-        <button onClick={() => handleSectionClick(0, "home")} className="link">
-          <LineEffect delay={handleLineDelay()}>Home</LineEffect>
+        <button
+          onClick={() => handleSectionClick(0, "home")}
+          className={clsx("link")}
+        >
+          <LineEffect
+            delay={handleLineDelay()}
+            isCurrentPage={sectionIndex === 0}
+          >
+            Home
+          </LineEffect>
         </button>
-        <button onClick={() => handleSectionClick(1, "about")} className="link">
-          <LineEffect delay={handleLineDelay()}>About</LineEffect>
+        <button
+          onClick={() => handleSectionClick(1, "about")}
+          className={clsx("link")}
+        >
+          <LineEffect
+            delay={handleLineDelay()}
+            isCurrentPage={sectionIndex === 1}
+          >
+            About
+          </LineEffect>
         </button>
         <button
           onClick={() => handleSectionClick(2, "career")}
-          className="link"
+          className={clsx("link")}
         >
-          <LineEffect delay={handleLineDelay()}>Career</LineEffect>
+          <LineEffect
+            delay={handleLineDelay()}
+            isCurrentPage={sectionIndex === 2}
+          >
+            Career
+          </LineEffect>
         </button>
         <button
           onClick={() => handleSectionClick(3, "projects")}
-          className="link"
+          className={clsx("link")}
         >
-          <LineEffect delay={handleLineDelay()}>Projects</LineEffect>
+          <LineEffect
+            delay={handleLineDelay()}
+            isCurrentPage={sectionIndex === 3}
+          >
+            Projects
+          </LineEffect>
         </button>
         <button
           onClick={() => handleSectionClick(4, "contact")}
-          className="link"
+          className={clsx("link")}
         >
           <LineEffect delay={handleLineDelay()}>Contact</LineEffect>
         </button>

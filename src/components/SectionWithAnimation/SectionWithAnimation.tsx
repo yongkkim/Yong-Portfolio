@@ -5,11 +5,9 @@ import { useStore } from "@/store/useStore";
 export default function SectionWithAnimation({
   id,
   children,
-}: //   animationClass,
-{
+}: {
   id: string;
   children: React.ReactNode;
-  //   animationClass: string;
 }) {
   const { isVisibleSections, setSectionVisible } = useStore();
   const sectionRef = useRef(null);
@@ -25,7 +23,7 @@ export default function SectionWithAnimation({
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 1 }
     );
 
     if (sectionRef.current) {

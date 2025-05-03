@@ -3,11 +3,13 @@ import { motion } from "framer-motion";
 interface TwinkleCircleProps {
   label?: string;
   isClicked: boolean;
+  handleClick?: () => void;
 }
 
 export default function TwinkleCircle({
   label,
   isClicked,
+  handleClick = () => {},
 }: TwinkleCircleProps) {
   return (
     <div className="relative group">
@@ -19,6 +21,7 @@ export default function TwinkleCircle({
         viewBox="0 0 100 100"
         fill="white"
         xmlns="http://www.w3.org/2000/svg"
+        onClick={() => handleClick()}
       >
         {/* Static Outer Circle */}
         <circle r="45" cx="50" cy="50" fill="#008f11" />

@@ -17,31 +17,19 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-mono), sans-serif;
+  font-family: var(--jetBrainsMono), sans-serif;
 }
 
 .stroke-text-sm {
   text-shadow: -1px 0 #008f11, 0 1px #008f11, 1px 0 #008f11, 0 -1px #008f11;
 }
 
+.stroke-text-sm-bigger {
+  text-shadow: -3px 0 #008f11, 0 3px #008f11, 3px 0 #008f11, 0 -3px #008f11;
+}
+
 .stroke-text-lg {
-  text-shadow: -2px 0 #003b00, 0 2px #003b00, 2px 0 #003b00, 0 -2px #003b00;
-}
-
-@keyframes moveText {
-  0% {
-    top: 40%; /* Start from the center */
-  }
-  100% {
-    top: 20px; /* Move to the top */
-  }
-}
-
-.moving-text {
-  animation: moveText 0.7s ease-out 1.3s forwards;
-  position: fixed; /* Ensure it's fixed in the viewport */
-  top: 40%; /* Center the h1 initially */
-  left: 50%;
+  text-shadow: -1px 0 #008f11, 0 1px #008f11, 1px 0 #008f11, 0 -1px #008f11;
 }
 
 @layer components {
@@ -73,5 +61,8 @@ body {
 @layer utilities {
   .text-shadow-green {
     text-shadow: -1px 0 #008f11, 0 1px #008f11, 1px 0 #008f11, 0 -1px #008f11;
+  }
+  .overlay {
+    @apply absolute z-[-1] left-0 right-0 w-full h-full object-cover bg-gradient-to-r from-[rgba(0,84,62,0)] to-[rgba(0,177,30,0.15)];
   }
 }

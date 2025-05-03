@@ -1,8 +1,4 @@
-import AnimationEffect from "@/components/EmergingEffect/EmergingEffect";
-
+import ClientProject from "./clientProject";
 export default function Project() {
-  return (
-    // <AnimationEffect>
-    <h1 className="text-4xl font-bold text-center">Welcome to My Project!</h1>
-  );
+  return <ClientProject />;
 }

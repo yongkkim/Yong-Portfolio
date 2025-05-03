@@ -1,59 +1,65 @@
 "use client";
 
-import EmergingEffect from "@/components/EmergingEffect/EmergingEffect";
-import Experience from "@/components/Experience/Experience";
-import { experienceInfo } from "@/constants/constants";
-import Image from "next/image";
-import { useState, useEffect } from "react";
 import TypingEffect from "@/components/TypingEffect/TypingEffect";
+import { useStore } from "@/store/useStore";
+import Menu from "@/components/Menu/Menu";
+import MobileMenu from "@/components/MobileMenu/MobileMenu";
+import clsx from "clsx";
+import EmergingEffect from "@/components/EmergingEffect/EmergingEffect";
+import ExperienceCard from "@/components/ExperienceCard/ExperienceCard";
+import { useEffect, useState } from "react";
+import MobileExperienceCard from "@/components/MobileExperienceCard/MobileExperienceCard";
 
 export default function ClientCareer() {
-  const [index, setIndex] = useState(0);
+  const { isVisibleSections, isMobile } = useStore();
+  const [isMobileView, setIsMobileView] = useState(false);
+  const isVisible = isVisibleSections["career"];
+
+  useEffect(() => {
+    const updateExpView = () => {
+      setIsMobileView(window.innerWidth < 600);
+    };
+
+    updateExpView();
+    window.addEventListener("resize", updateExpView);
+    return () => window.removeEventListener("resize", updateExpView);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-[15px] relative">
-      <div className="absolute top-[100px] left-[100px]">
-        <TypingEffect delay={1500} text={"My Career"} speed={150} />
-      </div>
-      {/* <EmergingEffect fullHeight={false}>
-        <h1 className="text-[35px] moving-text fixed">My Career</h1>
-      </EmergingEffect> */}
-      {/* <EmergingEffect
-        key={index}
-        flexDirection={"flex-col"}
-        fullHeight={false}
-        delay={animationDelay}
+    <div className="h-screen flex flex-col w-full items-center relative">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute top-0 left-0 w-full h-full opacity-[0.3] z-[-1] object-cover"
       >
-        <Experience experienceInfo={experienceInfo[index]} />
-      </EmergingEffect>
-      <EmergingEffect fullHeight={false} delay={2}>
-        <div className="flex justify-between w-[100px] absolute bottom-[25px]">
-          <button
-            onClick={() =>
-              setIndex(index - 1 < 0 ? experienceInfo.length - 1 : index - 1)
-            }
-          >
-            <Image
-              src="/arrow_left.svg"
-              alt="Arrow Left"
-              width={30}
-              height={30}
+        <source src="/careerBG.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div className="overlay"></div>
+      {isVisible && (
+        <>
+          <div className="max-md:h-auto max-md:absolute max-md:top-0 max-md:left-0 max-md:right-0 max-md:m-auto">
+            {isMobile ? (
+              <MobileMenu />
+            ) : (
+              <Menu direction="row" size="50" delay={0} />
+            )}
+          </div>
+          <div className="absolute top-[100px] left-[100px] max-md:left-0 max-md:right-0 max-md:flex max-md:justify-center">
+            <TypingEffect
+              section="career"
+              delay={1500}
+              text={"MY CAREER: DRIVEN BY GROWTH"}
+              speed={70}
             />
-          </button>
-          <button
-            onClick={() =>
-              setIndex(index + 1 > experienceInfo.length - 1 ? 0 : index + 1)
-            }
-          >
-            <Image
-              src="/arrow_right.svg"
-              alt="Arrow Right"
-              width={30}
-              height={30}
-            />
-          </button>
-        </div>
-      </EmergingEffect> */}
+          </div>
+          <EmergingEffect delay={1}>
+            {isMobileView ? <MobileExperienceCard /> : <ExperienceCard />}
+          </EmergingEffect>
+        </>
+      )}
     </div>
   );
 }

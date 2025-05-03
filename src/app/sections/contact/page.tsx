@@ -1,5 +1,3 @@
-import AnimationEffect from "@/components/EmergingEffect/EmergingEffect";
-
 export default function Contact() {
   return (
     // <AnimationEffect>

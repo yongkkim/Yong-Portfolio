@@ -16,6 +16,7 @@ export default function MobileMenu() {
             stroke="white"
             xmlns="http://www.w3.org/2000/svg"
             onClick={() => setIsMobileClicked()}
+            className="cursor-pointer"
           >
             <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
             <g
@@ -43,6 +44,7 @@ export default function MobileMenu() {
           stroke="white"
           xmlns="http://www.w3.org/2000/svg"
           onClick={() => setIsMobileClicked()}
+          className="cursor-pointer"
         >
           <g id="SVGRepo_bgCarrier"></g>
           <g

@@ -3,95 +3,63 @@
 import { useStore } from "@/store/useStore";
 import Menu from "@/components/Menu/Menu";
 import TypingEffect from "@/components/TypingEffect/TypingEffect";
-import { motion } from "framer-motion";
-import Emergingffect from "@/components/EmergingEffect/EmergingEffect";
+import { AnimatePresence, motion } from "framer-motion";
+import EmergingEffect from "@/components/EmergingEffect/EmergingEffect";
 import TwinkleCircle from "@/components/TwinkleCircle/TwinkleCircle";
+import MobileMenu from "@/components/MobileMenu/MobileMenu";
+import Popup from "@/components/Popup/Popup";
 import { aboutInto } from "@/constants/constants";
-import { useState } from "react";
+import { lineSegments } from "@/constants/constants";
+import { useState, useEffect } from "react";
+import clsx from "clsx";
 
-interface lineSegment {
-  type: string;
-  length: number;
-  x: number;
-  y: number;
-  angle: number;
-  isHoverable: boolean;
-  about: number;
-  isClicked: boolean;
+interface LineProperties {
+  scale: number;
+  translateX: number;
 }
 
 export default function ClientAbout() {
-  const { isClicked, clickedIndex, toggleIsClicked, isVisibleSections } =
-    useStore();
+  const {
+    clickedSection,
+    clickedIndex,
+    toggleIsClicked,
+    popupContent,
+    isVisibleSections,
+    popupFullScreen,
+    isMobile,
+  } = useStore();
+
   const isVisible = isVisibleSections["about"];
 
-  const lineSegments = [
-    {
-      type: "diagonal",
-      length: 100,
-      x: 540,
-      y: 361,
-      angle: -45,
-      isHoverable: false,
-    }, // Fourth diagonal
-    {
-      type: "straight",
-      length: 100,
-      x: 452,
-      y: -91,
-      angle: 0,
-      isHoverable: true,
-      about: 3,
-      isClicked: false,
-    }, // Third straight
-    {
-      type: "diagonal",
-      length: 100,
-      x: 214,
-      y: 136,
-      angle: -45,
-      isHoverable: false,
-    }, // Third diagonal
-    {
-      type: "straight",
-      length: 100,
-      x: 63,
-      y: -20,
-      angle: 0,
-      isHoverable: true,
-      about: 2,
-      isClicked: false,
-    }, // Second straight
-    {
-      type: "diagonal",
-      length: 100,
-      x: -110,
-      y: -89,
-      angle: -45,
-      isHoverable: false,
-    }, // Second diagonal
-    {
-      type: "straight",
-      length: 100,
-      x: -326,
-      y: 50,
-      angle: 0,
-      isHoverable: true,
-      about: 1,
-      isClicked: false,
-    }, // First straight
-    {
-      type: "diagonal",
-      length: 100,
-      x: -437,
-      y: -313,
-      angle: -45,
-      isHoverable: false,
-    }, // First diagonal
-  ];
+  const [lineProperties, setLineProperties] = useState<LineProperties>({
+    scale: 1,
+    translateX: -25,
+  });
+
+  useEffect(() => {
+    const updateScale = () => {
+      setLineProperties((prev) => ({
+        ...prev,
+        scale:
+          window.innerWidth < 440
+            ? 0.55
+            : window.innerWidth <= 1024
+            ? 0.65
+            : window.innerWidth <= 1440
+            ? 0.8
+            : 1,
+        translateX:
+          window.innerWidth < 768 ? -5 : window.innerWidth <= 1440 ? -15 : -25,
+      }));
+    };
+
+    updateScale(); // Set initial scale
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
 
   return (
-    <div className="min-h-screen flex flex-col w-full items-center relative">
+    <div className="h-screen flex flex-col w-full items-center relative">
       <video
         autoPlay
         loop
@@ -104,20 +72,42 @@ export default function ClientAbout() {
       </video>
       {isVisible && (
         <>
-          <Menu direction="row" size="50" delay={0} />
-          <div className="absolute top-[100px] left-[100px]">
+          <div
+            className={clsx(
+              "max-md:h-auto max-md:absolute max-md:top-0 max-md:left-0 max-md:right-0 max-md:m-auto"
+            )}
+          >
+            {isMobile ? (
+              <MobileMenu />
+            ) : (
+              <Menu direction="row" size="50" delay={0} />
+            )}
+          </div>
+          <div
+            className={clsx(
+              "absolute top-[100px] left-[100px]",
+              "max-md:left-0 max-md:right-0 max-md:flex max-md:justify-center"
+            )}
+          >
             <TypingEffect
+              section="about"
               delay={1500}
               text={"ABOUT ME: A BULLISH TREND IN MY LIFE"}
-              speed={80}
+              speed={70}
             />
           </div>
-          <Emergingffect isPopup={true} delay={1}>
+          <EmergingEffect delay={1}>
             <motion.div
-              initial={{ left: "25%" }}
-              animate={{ left: isClicked ? "100px" : "25%" }}
+              initial={{ x: "-25%", scale: lineProperties.scale }}
+              animate={{
+                x:
+                  clickedSection === "about" && !popupFullScreen
+                    ? `${lineProperties.translateX - 10}%`
+                    : `${lineProperties.translateX}%`,
+                scale: lineProperties.scale,
+              }}
               transition={{ duration: 0.5 }}
-              className="absolute flex justify-center items-center min-h-[inherit] pb-[45px]"
+              className="absolute top-1/2 flex justify-center items-center pb-[45px]"
             >
               {lineSegments.map((line, index) => (
                 <motion.div
@@ -126,10 +116,6 @@ export default function ClientAbout() {
                   style={{
                     transform: `rotate(${line.angle}deg) translate(${line.x}px, ${line.y}px)`,
                   }}
-                  onClick={() =>
-                    line.about &&
-                    toggleIsClicked(true, index, aboutInto[line.about - 1])
-                  }
                 >
                   {index === 0 && (
                     <div className="absolute right-0 top-1/2 -translate-y-1/2 flex">
@@ -151,12 +137,29 @@ export default function ClientAbout() {
                     <TwinkleCircle
                       label={aboutInto[line.about - 1].label}
                       isClicked={clickedIndex === index}
+                      handleClick={() =>
+                        toggleIsClicked(
+                          "about",
+                          index,
+                          aboutInto[line.about - 1]
+                        )
+                      }
                     />
                   )}
                 </motion.div>
               ))}
             </motion.div>
-          </Emergingffect>
+            <AnimatePresence mode="wait">
+              {clickedSection === "about" && (
+                <Popup
+                  imgSrc={popupContent?.imgSrc}
+                  imgAlt={popupContent?.imgAlt}
+                  text={popupContent?.text}
+                  keepStyle={true}
+                ></Popup>
+              )}
+            </AnimatePresence>
+          </EmergingEffect>
         </>
       )}
     </div>

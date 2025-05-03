@@ -21,52 +21,120 @@ const careerInfo = {
 
 export const aboutInto = [beforeCollegeInfo, collegeInfo, careerInfo];
 
-const SPGlobalDesc = [
-  "Developed scalable, responsive web applications using React and Vue, enhancing data visualization and user experience.",
-  "Revamped legacy ASP.NET applications with React and Vue, reducing front-end code complexity and improving rendering performance, leading to a 20% increase in user engagement.",
-  "Integrated and worked with SDKs to enhance application functionality, optimize API interactions, and manage financial data queries efficiently.",
-  "Implemented infinite scroll and lazy loading, reducing initial load times and improving user responsiveness.",
-  "Designed seamless API integrations with back-end services, improving real-time financial data rendering and dashboard load times by 15%.",
-  "Awarded the H2 2022 Essential Excellence Award for delivering data visualization dashboards and analytics solutions.",
-];
+export const summary =
+  "I am a front-end developer with 4+ years of experience in creating scalable, high-performance web applications. I specialize in technologies like React, Vue, Next.js, TypeScript, and Node.js, and have a strong focus on both UI/UX design and performance optimization. Throughout my career, I’ve worked on delivering intuitive data visualization solutions and improving rendering performance to enhance user experience. I am also skilled in integrating APIs seamlessly into web applications. By collaborating closely with cross-functional teams, I’ve been able to drive meaningful business outcomes and consistently deliver high-impact solutions.";
 
-const OnwordDesc = [
-  "Built a business-focused social networking app with React, GraphQL, Styled Components, and Material UI, ensuring responsiveness across devices.",
-  "Optimized application performance with lazy loading and efficient image-handling techniques, reducing load times significantly.",
-  "Managed API development with Express.js and MongoDB, enabling seamless real-time data handling.",
-];
-
-const MinistryDesc = [
-  "Conducted QA testing on applications within an Agile development environment.",
-  "Performed functional, unit, and regression testing based on detailed test cases.",
-  "Identified, documented, and tracked software issues, bugs, and defects using Team Foundation Server.",
-  "Assisted developers in deploying code across multiple testing environments.",
-  "Reviewed and analyzed user-reported incidents to identify and resolve system issues efficiently.",
-];
-
-export const experienceInfo = [
+export const lineSegments = [
   {
-    company: "S&P Global",
-    position: "Front End Developer",
-    duration: "01/2022 - 12/2024",
-    numYear: "(3 years)",
-    description: SPGlobalDesc,
-  },
+    type: "diagonal",
+    length: 100,
+    x: 540,
+    y: 361,
+    angle: -45,
+    isHoverable: false,
+  }, // Fourth diagonal
+  {
+    type: "straight",
+    length: 100,
+    x: 452,
+    y: -91,
+    angle: 0,
+    isHoverable: true,
+    about: 3,
+    isClicked: false,
+  }, // Third straight
+  {
+    type: "diagonal",
+    length: 100,
+    x: 214,
+    y: 136,
+    angle: -45,
+    isHoverable: false,
+  }, // Third diagonal
+  {
+    type: "straight",
+    length: 100,
+    x: 63,
+    y: -20,
+    angle: 0,
+    isHoverable: true,
+    about: 2,
+    isClicked: false,
+  }, // Second straight
+  {
+    type: "diagonal",
+    length: 100,
+    x: -110,
+    y: -89,
+    angle: -45,
+    isHoverable: false,
+  }, // Second diagonal
+  {
+    type: "straight",
+    length: 100,
+    x: -326,
+    y: 50,
+    angle: 0,
+    isHoverable: true,
+    about: 1,
+    isClicked: false,
+  }, // First straight
+  {
+    type: "diagonal",
+    length: 100,
+    x: -437,
+    y: -313,
+    angle: -45,
+    isHoverable: false,
+  }, // First diagonal
+];
+
+export const experience = [
   {
     company: "Onword",
     position: "Full Stack Developer",
     duration: "08/2020 - 12/2021",
-    numYear: "(1.5 years)",
-    description: OnwordDesc,
+    logo: "/onword.png",
+    description: [
+      "•	Built a business-focused social networking app with React, GraphQL, Styled Components, and Material UI, ensuring responsiveness across devices.",
+      "•	Optimized application performance with lazy loading and efficient image-handling techniques, reducing load times significantly.",
+      "•	Managed API development with Express.js and MongoDB, enabling seamless real-time data handling.",
+    ],
+  },
+  {
+    company: "S&P Global",
+    position: "Front End Developer",
+    duration: "01/2022 - 12/2024",
+    logo: "/sp_global.png",
+    description: [
+      "•	Developed scalable, responsive web applications using React and Vue, enhancing data visualization and user experience.",
+      "•	Revamped legacy ASP.NET applications with React and Vue, reducing front-end code complexity and improving rendering performance, leading to a 20% increase in user engagement.",
+      "•	Integrated and worked with SDKs to enhance application functionality, optimize API interactions, and manage financial data queries efficiently.",
+      "•	Implemented infinite scroll and lazy loading, reducing initial load times and improving user responsiveness.",
+      "•	Designed seamless API integrations with back-end services, improving real-time financial data rendering and dashboard load times by 15%.",
+      "•	Awarded the H2 2022 Essential Excellence Award for delivering data visualization dashboards and analytics solutions.",
+    ],
   },
   {
     company: "Ontario Ministry of Children, Community and Social Services",
     position: "Junior Application QA Tester",
     duration: "01/2018 - 12/2019",
-    numYear: "(1 year)",
-    description: MinistryDesc,
+    logo: "/ministry.png",
+    description: [
+      "• Conducted QA testing on applications within an Agile development environment.",
+      "• Performed functional, unit, and regression testing based on detailed test cases.",
+      "• Identified, documented, and tracked software issues, bugs, and defects using Team Foundation Server.",
+      "• Assisted developers in deploying code across multiple testing environments.",
+      "• Reviewed and analyzed user-reported incidents to identify and resolve system issues efficiently.",
+    ],
   },
 ];
 
-export const summary =
-  "I am a front-end developer with 4+ years of experience in creating scalable, high-performance web applications. I specialize in technologies like React, Vue, Next.js, TypeScript, and Node.js, and have a strong focus on both UI/UX design and performance optimization. Throughout my career, I’ve worked on delivering intuitive data visualization solutions and improving rendering performance to enhance user experience. I am also skilled in integrating APIs seamlessly into web applications. By collaborating closely with cross-functional teams, I’ve been able to drive meaningful business outcomes and consistently deliver high-impact solutions.";
+export const projects = [
+  {
+    name: "Online Resume",
+  },
+  {
+    name: "Image Gallery",
+  },
+];

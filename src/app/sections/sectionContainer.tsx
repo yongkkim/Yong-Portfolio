@@ -10,11 +10,14 @@ import Contact from "./contact/page";
 import SectionWithAnimation from "@/components/SectionWithAnimation/SectionWithAnimation";
 
 export default function SectionContainer() {
-  const { sectionIndex, setSectionIndex } = useStore();
+  const { sectionIndex, setSectionIndex, toggleIsClicked, clickedSection } =
+    useStore();
 
   // Detect scroll direction and update sectionIndex
   let isScrolling = false;
   const handleScroll = (event: WheelEvent) => {
+    if (clickedSection !== "" && clickedSection !== "home") return;
+
     if (isScrolling) return;
     isScrolling = true;
 
@@ -29,15 +32,16 @@ export default function SectionContainer() {
   };
 
   useEffect(() => {
-    window.addEventListener("wheel", handleScroll);
+    window.addEventListener("wheel", handleScroll, { passive: false });
     return () => window.removeEventListener("wheel", handleScroll);
-  }, []);
+  }, [clickedSection]);
 
   // Automatically scroll to the updated section
   useEffect(() => {
     const sections = document.getElementsByTagName("section");
     if (sections[sectionIndex]) {
       sections[sectionIndex].scrollIntoView({ behavior: "smooth" });
+      toggleIsClicked("");
     }
   }, [sectionIndex]);
 
@@ -49,12 +53,12 @@ export default function SectionContainer() {
       <SectionWithAnimation id="about">
         <About />
       </SectionWithAnimation>
-      <section id="career">
+      <SectionWithAnimation id="career">
         <Career />
-      </section>
-      <section id="project">
+      </SectionWithAnimation>
+      <SectionWithAnimation id="project">
         <Project />
-      </section>
+      </SectionWithAnimation>
       <section id="contact">
         <Contact />
       </section>

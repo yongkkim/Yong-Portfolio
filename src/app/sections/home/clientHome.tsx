@@ -10,11 +10,12 @@ import clsx from "clsx";
 import { useStore } from "@/store/useStore";
 
 export default function ClientHome() {
-  const { setIsMobile, isMobile } = useStore();
+  const { setIsMobile, isMobile, setPopupFullScreen } = useStore();
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 425);
+      setPopupFullScreen(window.innerWidth < 768 ? true : false);
     };
 
     handleResize();
@@ -26,7 +27,7 @@ export default function ClientHome() {
   return (
     <div
       className={clsx(
-        "min-h-screen flex pt-[150px] w-full relative justify-center",
+        "h-screen flex pt-[150px] w-full relative justify-center",
         "max-lg:pt-[100px]"
       )}
     >
