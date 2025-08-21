@@ -10,15 +10,24 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Popup from "@/components/Popup/Popup";
 import { projects } from "@/constants/constants";
+import LineEffect from "@/components/LineEffect/LineEffect";
+import ProjectDescTemplate from "@/components/Template/ProjectDescTemplate";
 
-interface expObject {
-  name: string;
+interface contentObject {
+  company?: string;
+  position?: string;
+  duration?: string;
+  logo?: string;
+  techStack?: Array<string>;
+  description: Array<string>;
+  bgColor?: string;
 }
 
 export default function ClientProject() {
-  const { isVisibleSections, isMobile } = useStore();
+  const { isVisibleSections, isMobile, popupContent, setSelectedContent } =
+    useStore();
   const [isMobileView, setIsMobileView] = useState(false);
-  const isVisible = isVisibleSections["project"];
+  const isVisible = isVisibleSections["projects"];
 
   useEffect(() => {
     const updateExpView = () => {
@@ -30,25 +39,13 @@ export default function ClientProject() {
     return () => window.removeEventListener("resize", updateExpView);
   }, []);
 
-  const { toggleIsClicked, clickedSection, setSelectedExp, selectedExp } =
-    useStore();
-  const [experience, updateExperience] = useState<Array<expObject>>(projects);
+  const { toggleIsClicked, clickedSection } = useStore();
   const [hoveredIndex, setHoveredIndex] = useState<number>(-1);
 
-  const middleIndex = Math.floor(experience.length / 2);
-
-  const rotateLeft = () => {
-    updateExperience((prev) => [...prev.slice(1), prev[0]]);
+  const handleClick = (content: contentObject) => {
+    toggleIsClicked("projects");
+    setSelectedContent(content);
   };
-
-  const rotateRight = () => {
-    updateExperience((prev) => [prev[prev.length - 1], ...prev.slice(0, -1)]);
-  };
-
-  // const handleClick = (exp: expObject) => {
-  //   toggleIsClicked("career");
-  //   setSelectedExp(exp);
-  // };
 
   return (
     <div className="h-screen flex flex-col w-full items-center relative">
@@ -74,9 +71,9 @@ export default function ClientProject() {
           </div>
           <div className="absolute top-[100px] left-[100px] max-md:left-0 max-md:right-0 max-md:flex max-md:justify-center">
             <TypingEffect
-              section="career"
+              section="projects"
               delay={1500}
-              text={"MY PROJECTS: DEVELOPING WITHOUT LIMITS"}
+              text={"MY PROJECTS: IDEAS IN ACTION"}
               speed={70}
             />
           </div>
@@ -84,13 +81,13 @@ export default function ClientProject() {
             <div
               className={clsx(
                 "flex items-center justify-center w-full h-[300px] mt-[150px] overflow-hidden",
-                "max-lg:mt-[200px]"
+                "max-lg:mt-[200px] max-[425px]:h-auto"
               )}
             >
               <div
                 className={clsx(
                   "flex gap-4 h-full",
-                  "max-lg:w-[80%] max-md:w-[60%]"
+                  "min-[425px]:w-[80%] max-[425px]:flex-col"
                 )}
               >
                 {projects.map((proj, index) => (
@@ -106,14 +103,14 @@ export default function ClientProject() {
                       setHoveredIndex(-1);
                     }}
                     className={clsx(
-                      "relative w-[250px] h-full bg-white p-4 flex flex-col items-center rounded-[20px] justify-start"
+                      "relative w-[250px] h-full bg-white p-2 flex flex-col items-center rounded-[20px] justify-start"
                     )}
                   >
                     <motion.div
                       transition={{ duration: 0.3 }}
                       className="flex justify-center bg-white w-full h-full relative"
                     >
-                      <img src="/work.jpg" />
+                      <img className="rounded-[20px]" src={proj.image} />
                     </motion.div>
                     {hoveredIndex === index && (
                       <>
@@ -128,13 +125,46 @@ export default function ClientProject() {
                           transition={{
                             duration: 0.3,
                           }}
-                          className="absolute inset-0 z-0 rounded-[20px]"
+                          className={clsx(
+                            "absolute inset-0 z-0 rounded-[20px] flex flex-col text-[14px] text-center text-white",
+                            "max-[425px]:mt-0 pt-[10px]"
+                          )}
                         >
-                          <div className="flex flex-col  mt-4 text-[14px] text-center text-white">
-                            <span>
-                              <b>{proj.name}</b>
-                            </span>
-                          </div>
+                          <span
+                            className={clsx(
+                              "pb-[5px] mb-[15px] text-[18px]",
+                              "max-[425px]:mb-0"
+                            )}
+                          >
+                            <b>{proj.name}</b>
+                          </span>
+                          <span
+                            className="p-[10px] cursor-pointer"
+                            onClick={() => {
+                              handleClick({
+                                techStack: proj.menu.techStack,
+                                description: proj.menu.description,
+                              });
+                            }}
+                          >
+                            <LineEffect delay={0} paddingBottom="5px">
+                              Descriptions
+                            </LineEffect>
+                          </span>
+                          <span className="p-[10px] cursor-pointer">
+                            <LineEffect delay={0} paddingBottom="5px">
+                              Video
+                            </LineEffect>
+                          </span>
+                          <a
+                            href={proj.menu.repo}
+                            target="_blank"
+                            className="p-[10px] cursor-pointer"
+                          >
+                            <LineEffect delay={0} paddingBottom="5px">
+                              Github
+                            </LineEffect>
+                          </a>
                         </motion.div>
                       </>
                     )}
@@ -142,6 +172,11 @@ export default function ClientProject() {
                 ))}
               </div>
             </div>
+            <AnimatePresence>
+              {clickedSection === "projects" && (
+                <Popup Template={ProjectDescTemplate} />
+              )}
+            </AnimatePresence>
           </EmergingEffect>
         </>
       )}

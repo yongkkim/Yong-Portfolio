@@ -100,6 +100,7 @@ export const experience = [
       "•	Optimized application performance with lazy loading and efficient image-handling techniques, reducing load times significantly.",
       "•	Managed API development with Express.js and MongoDB, enabling seamless real-time data handling.",
     ],
+    bgColor: "rgb(77,219,216)",
   },
   {
     company: "S&P Global",
@@ -114,6 +115,7 @@ export const experience = [
       "•	Designed seamless API integrations with back-end services, improving real-time financial data rendering and dashboard load times by 15%.",
       "•	Awarded the H2 2022 Essential Excellence Award for delivering data visualization dashboards and analytics solutions.",
     ],
+    bgColor: "rgb(215,0,42)",
   },
   {
     company: "Ontario Ministry of Children, Community and Social Services",
@@ -127,14 +129,94 @@ export const experience = [
       "• Assisted developers in deploying code across multiple testing environments.",
       "• Reviewed and analyzed user-reported incidents to identify and resolve system issues efficiently.",
     ],
+    bgColor: "rgb(252,185,52)",
   },
 ];
 
 export const projects = [
   {
     name: "Online Resume",
+    image: "/portfolio.png",
+    menu: {
+      description: [
+        "• Building a personal resume site with Next.js, TypeScript, Tailwind CSS, Zustand, and Framer Motion.",
+        "• Focused on responsive design, smooth page transitions, and state-based animation control.",
+        "• Implemented device-specific rendering logic and custom animation effects to enhance user experience.",
+        "• Applied modular component structure and centralized state management to maintain clean, scalable code.",
+        "• Designed an interactive career timeline and experience carousel, highlighting UI/UX skills.",
+      ],
+      techStack: [
+        "Next",
+        "React",
+        "Zustand",
+        "TypeScript",
+        "Tailwind",
+        "Framer Motion",
+      ],
+      demo: "",
+      repo: "https://github.com/yongkkim/Yong-Portfolio",
+    },
   },
   {
     name: "Image Gallery",
+    image: "/portfolio.png",
+    menu: {
+      description: [
+        "• Developed a responsive and scalable photo gallery application using React, Redux Toolkit, TypeScript, and Tailwind CSS, with a modular and maintainable code structure.",
+        "• Integrated SQL Server through an Express.js API, enabling efficient CRUD operations for storing and retrieving image data.",
+        "• Implemented lazy loading and infinite scrolling to optimize performance and enhance user experience on both desktop and mobile devices.",
+        "• Utilized RTK Query for efficient data fetching and caching, and applied server-side image compression to reduce bandwidth usage.",
+        "• Built reusable, accessible UI components and implemented secure image upload with validation to ensure a robust and user-friendly interface.",
+      ],
+      techStack: [
+        "React",
+        "Redux Toolkit",
+        "TypeScript",
+        "Tailwind",
+        "Express.js",
+        "MS SQL Server",
+      ],
+      demo: "",
+      repo: "https://github.com/yongkkim/ImageGallery",
+    },
   },
 ];
+
+export const skillAreas = [
+  "Front-end",
+  "Back-end",
+  "State Management",
+  "DevOps & Tools",
+];
+
+export const skills = {
+  frontEnd: [
+    "• React",
+    "• Vue",
+    "• Next.js",
+    "• TypeScript",
+    "• JavaScript",
+    "• HTML5",
+    "• CSS3",
+    "• SCSS",
+    "• Styled Components",
+    "• Tailwind",
+  ],
+  apisAndBackend: [
+    "• RESTful APIs",
+    "• GraphQL",
+    "• Express.js",
+    "• Node.js",
+    "• SQL (MySQL, SQL Server)",
+    "• NoSQL (MongoDB)",
+  ],
+  stateManagement: ["• Redux", "• RTK", "• Vuex", "• Pinia", "• Zustand"],
+  devOpsAndTools: [
+    "• Git",
+    "• Agile Development",
+    "• NPM",
+    "• Jenkins",
+    "• Figma",
+    "• InVision",
+  ],
+};

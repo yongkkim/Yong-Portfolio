@@ -15,7 +15,6 @@ export default function Menu({
   size?: string;
   delay?: number;
 }) {
-  // const { isVisibleSections, setSectionVisible } = useStore();
   const {
     sectionIndex,
     setSectionIndex,
@@ -78,7 +77,7 @@ export default function Menu({
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         transition={{ duration: 0.3, ease: "easeInOut", delay: delay }}
-        className={`flex ${flexDirection} gap-10 w-full h-full p-[15px] rounded-[10px] ${menuBG} max-md:gap-[1.5rem]`}
+        className={`flex ${flexDirection} gap-10 w-full h-full z-[5] p-[15px] rounded-[10px] ${menuBG} max-md:gap-[1.5rem] max-[475px]:gap-[1rem]`}
       >
         <button
           onClick={() => handleSectionClick(0, "home")}
@@ -125,10 +124,26 @@ export default function Menu({
           </LineEffect>
         </button>
         <button
-          onClick={() => handleSectionClick(4, "contact")}
+          onClick={() => handleSectionClick(4, "skills")}
           className={clsx("link")}
         >
-          <LineEffect delay={handleLineDelay()}>Contact</LineEffect>
+          <LineEffect
+            delay={handleLineDelay()}
+            isCurrentPage={sectionIndex === 4}
+          >
+            Skills
+          </LineEffect>
+        </button>
+        <button
+          onClick={() => handleSectionClick(5, "contact")}
+          className={clsx("link")}
+        >
+          <LineEffect
+            delay={handleLineDelay()}
+            isCurrentPage={sectionIndex === 5}
+          >
+            Contact
+          </LineEffect>
         </button>
       </motion.div>
     </nav>

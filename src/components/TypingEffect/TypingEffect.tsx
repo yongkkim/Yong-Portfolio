@@ -8,59 +8,89 @@ export default function TypingEffect({
   speed = 100,
   delay = 0,
   section = "home",
+  fadeInDuration = 0,
+  showCursor = true,
+  title = true,
+  body = false,
 }: {
   text: string;
   speed?: number;
   delay?: number;
   section?: string;
+  fadeInDuration?: number;
+  showCursor?: boolean;
+  title?: boolean;
+  body?: boolean;
 }) {
   const [index, setIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isCursorVisible, setIsCursorVisible] = useState(showCursor);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const interval = setInterval(() => {
+      setIndex((prevIndex) => {
+        if (prevIndex < text.length) {
+          return prevIndex + 1;
+        } else {
+          clearInterval(interval);
+          return prevIndex;
+        }
+      });
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [isVisible, speed, text]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      const interval = setInterval(() => {
-        setIndex((prevIndex) => {
-          if (prevIndex < text.length) {
-            return prevIndex + 1;
-          } else {
-            clearInterval(interval);
-            return prevIndex;
-          }
-        });
-      }, speed);
-
-      return () => clearInterval(interval);
-    }, delay);
+      setIsVisible(true);
+    }, delay + fadeInDuration);
 
     return () => clearTimeout(timeout);
-  }, [text, speed, delay]);
+  }, [delay]);
+
+  useEffect(() => {
+    if (isCursorVisible && (section === "skills" || section == "projects")) {
+      const cursorFadeOut = setTimeout(
+        () => {
+          setIsCursorVisible(false);
+        },
+        delay + section === "skills" ? 1500 : 3200
+      );
+      return () => clearTimeout(cursorFadeOut);
+    }
+  }, [isCursorVisible]);
 
   return (
     <motion.span
       className="flex text-lg"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay: 1 }}
+      transition={{ duration: 0.5, delay: 1 }} // You can sync this with EmergingEffect if needed
     >
       <h1
         className={clsx(
-          "text-white text-3xl tracking-[-1px] z-[-1]",
-          section === "home" ? "stroke-text-lg" : "stroke-text-sm-bigger",
-          "max-lg:text-3xl max-md:text-2xl max-[475px]:text-xl"
+          "text-white tracking-[-1px] text-3xl",
+          section === "home" && "stroke-text-md",
+          "max-md:text-2xl max-[475px]:text-xl stroke-text-sm"
         )}
       >
         {text.slice(0, index)}
       </h1>
-      <motion.span
-        animate={{ opacity: [0, 1, 0] }}
-        transition={{ repeat: Infinity, duration: 0.5 }}
-        className={clsx(
-          "text-white ml-1 text-2xl",
-          "max-lg:text-2xl max-[475px]:leading-[1.5rem]"
-        )}
-      >
-        |
-      </motion.span>
+      {isCursorVisible && (
+        <motion.span
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ repeat: Infinity, duration: 0.5 }}
+          className={clsx(
+            "text-white ml-1 text-3xl",
+            "max-lg:text-2xl max-[475px]:leading-[1.5rem]"
+          )}
+        >
+          |
+        </motion.span>
+      )}
     </motion.span>
   );
 }

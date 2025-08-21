@@ -5,6 +5,7 @@ import Arrow from "@/components/Arrow/Arrow";
 import Popup from "@/components/Popup/Popup";
 import { useState } from "react";
 import clsx from "clsx";
+import ExperienceTemplate from "../Template/ExperienceTemplate";
 
 interface expObject {
   company: string;
@@ -12,11 +13,11 @@ interface expObject {
   duration: string;
   logo: string;
   description: Array<string>;
+  bgColor: string;
 }
 
 export default function ExperienceCard() {
-  const { toggleIsClicked, clickedSection, setSelectedExp, selectedExp } =
-    useStore();
+  const { toggleIsClicked, clickedSection, setSelectedContent } = useStore();
   const [experience, updateExperience] =
     useState<Array<expObject>>(experienceData);
   const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -31,9 +32,22 @@ export default function ExperienceCard() {
     updateExperience((prev) => [prev[prev.length - 1], ...prev.slice(0, -1)]);
   };
 
-  const handleClick = (exp: expObject) => {
+  const handleSelectExp = (exp: expObject) => {
     toggleIsClicked("career");
-    setSelectedExp(exp);
+    setSelectedContent(exp);
+  };
+
+  const darkenColor = (rgbString: string) => {
+    const rgb = rgbString.match(/\d+/g);
+    if (!rgb) return rgbString;
+
+    let [r, g, b] = rgb.map(Number);
+
+    r = Math.max(0, Math.floor(r * (1 - 0.7)));
+    g = Math.max(0, Math.floor(g * (1 - 0.7)));
+    b = Math.max(0, Math.floor(b * (1 - 0.7)));
+
+    return `rgba(${r}, ${g}, ${b}, 0.9)`;
   };
 
   return (
@@ -59,8 +73,8 @@ export default function ExperienceCard() {
               opacity: index === middleIndex ? 1 : 0.7,
               backgroundColor:
                 index === middleIndex && isHovered
-                  ? "rgba(18, 79, 125, 0.5)"
-                  : "rgba(77, 120, 127, 0.9)",
+                  ? darkenColor(exp.bgColor)
+                  : "rgba(51, 51, 51, 0.9)",
             }}
             transition={{
               duration: index === middleIndex ? 0.5 : 0,
@@ -72,18 +86,21 @@ export default function ExperienceCard() {
               if (index === middleIndex) setIsHovered(false);
             }}
             onClick={() => {
-              index === middleIndex ? handleClick(exp) : {};
+              index === middleIndex ? handleSelectExp(exp) : {};
             }}
             className={clsx(
               "relative w-[250px] h-full bg-[rgba(111,190,169,0.77)] p-4 flex flex-col items-center rounded-[20px] justify-start",
+              "bg-[#222831] shadow-[0_4px_12px_rgba(0,0,0,0.5)]",
               index === middleIndex && "cursor-pointer"
             )}
           >
             <motion.div
-              animate={index === middleIndex && isHovered ? { scale: 1.1 } : {}}
+              animate={
+                index === middleIndex && isHovered ? { scale: 1.05 } : {}
+              }
               transition={{ duration: 0.3 }}
               className="flex justify-center w-full h-1/2 relative bg-white rounded-[20px]"
-              style={{ clipPath: "ellipse(100% 90% at 50% 0%)" }}
+              style={{ clipPath: "polygon(0 0, 100% 0, 100% 90%, 0% 70%)" }}
             >
               <img
                 src={exp.logo}
@@ -91,11 +108,13 @@ export default function ExperienceCard() {
               />
             </motion.div>
             <motion.div
-              animate={index === middleIndex && isHovered ? { scale: 1.1 } : {}}
+              animate={
+                index === middleIndex && isHovered ? { scale: 1.05 } : {}
+              }
               transition={{ duration: 0.3 }}
-              className="flex justify-center"
+              className="flex w-full"
             >
-              <div className="flex flex-col text-[14px] text-center text-white">
+              <div className="flex flex-col text-[14px] text-white">
                 <span>
                   <b>{exp.company}</b>
                 </span>
@@ -109,11 +128,6 @@ export default function ExperienceCard() {
             </motion.div>
           </motion.div>
         ))}
-        <AnimatePresence mode="wait">
-          {clickedSection === "career" && (
-            <Popup section="career" template={true} />
-          )}
-        </AnimatePresence>
       </div>
 
       <button

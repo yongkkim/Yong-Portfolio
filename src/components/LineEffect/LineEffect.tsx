@@ -9,6 +9,7 @@ export default function LineEffect({
   shadow = true,
   fontStyle = "",
   isCurrentPage = false,
+  paddingBottom = "0",
 }: {
   children: React.ReactNode;
   delay?: number;
@@ -16,10 +17,11 @@ export default function LineEffect({
   shadow?: boolean;
   fontStyle?: string;
   isCurrentPage?: boolean;
+  paddingBottom?: string;
 }) {
   return (
     <motion.div
-      className="relative w-full h-fit group"
+      className={clsx("relative w-full h-fit group", `pb-[${paddingBottom}]`)}
       initial={{ scaleX: 0 }}
       animate={{ scaleX: 1 }}
       transition={{ duration: 0.3, ease: "easeInOut", delay: delay }}

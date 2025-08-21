@@ -1,62 +1,60 @@
 import { stat } from "fs";
 import { create } from "zustand";
 
-interface expObject {
-  company: string;
-  position: string;
-  duration: string;
-  logo: string;
+interface contentObject {
+  company?: string;
+  position?: string;
+  duration?: string;
+  logo?: string;
+  techStack?: Array<string>;
   description: Array<string>;
+  bgColor?: string;
 }
 
 interface StoreState {
   clickedSection: string;
   isMobileClicked: boolean;
   isMobile: boolean;
-  popupContent: { imgSrc: string; imgAlt: string; text: string } | null;
+  popupContent: string[] | string;
   sectionIndex: number;
   isVisibleSections: Record<string, boolean>;
   clickedIndex: number | null;
-  popupFullScreen: boolean;
+  fullScreenPopup: boolean;
   popupHeight: number;
-  selectedExp: expObject;
-  setPopupFullScreen: (fullScreen: boolean) => void;
+  selectedContent: contentObject;
+  setFullScreenPopup: (fullScreen: boolean) => void;
   setPopupHeight: (width: number) => void;
   toggleIsClicked: (
     clickedSection: string,
-    index?: number | null,
-    content?: {
-      imgSrc: string;
-      imgAlt: string;
-      text: string;
-    }
+    text?: string[] | string,
+    index?: number | null
   ) => void;
   setSectionIndex: (updater: (prevIndex: number) => number) => void;
   setSectionVisible: (sectionId: string, visible: boolean) => void;
   setIsMobileClicked: () => void;
   setIsMobile: (mobile: boolean) => void;
-  setSelectedExp: (exp: expObject) => void;
+  setSelectedContent: (content: contentObject) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
   clickedSection: "home",
   isMobileClicked: false,
   isMobile: false,
-  popupContent: null,
+  popupContent: "",
   sectionIndex: 0,
   isVisibleSections: {} as Record<string, boolean>,
   clickedIndex: null,
-  popupFullScreen: false,
+  fullScreenPopup: false,
   popupHeight: 0,
-  selectedExp: {} as expObject,
+  selectedContent: {} as contentObject,
 
-  setPopupFullScreen: (fullScreen) => set({ popupFullScreen: fullScreen }),
+  setFullScreenPopup: (fullScreen) => set({ fullScreenPopup: fullScreen }),
   setPopupHeight: (width) => set({ popupHeight: width }),
-  toggleIsClicked: (section, index, content) =>
-    set((state: StoreState) => ({
+  toggleIsClicked: (section, content, index) =>
+    set(() => ({
       clickedSection: section,
       clickedIndex: index,
-      popupContent: content ?? null, // Update popup content
+      popupContent: content, // Update popup content
     })),
   setSectionIndex: (updater) =>
     set((state) => ({
@@ -71,5 +69,5 @@ export const useStore = create<StoreState>((set) => ({
       isMobileClicked: !state.isMobileClicked,
     })),
   setIsMobile: (value) => set({ isMobile: value }),
-  setSelectedExp: (exp) => set({ selectedExp: exp }),
+  setSelectedContent: (content) => set({ selectedContent: content }),
 }));

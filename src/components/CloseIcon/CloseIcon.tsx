@@ -4,18 +4,8 @@ import { useState, useEffect } from "react";
 
 import { motion } from "framer-motion";
 
-export default function CloseIcon({ section = "about" }: { section?: string }) {
-  const { toggleIsClicked, popupHeight, popupFullScreen } = useStore();
-  const [top, setTop] = useState<string>("-25px");
-  const [left, setLeft] = useState<string>(
-    section === "about" ? "calc(50% - 24px)" : "50%"
-  );
-  useEffect(() => {
-    if (popupFullScreen && popupHeight) {
-      setTop(`${(window.innerHeight - popupHeight) / 2 - 24}px`);
-      setLeft("unset");
-    }
-  }, [popupFullScreen, popupHeight]);
+export default function CloseIcon() {
+  const { toggleIsClicked } = useStore();
 
   const closeIcon = (
     <svg
@@ -28,7 +18,6 @@ export default function CloseIcon({ section = "about" }: { section?: string }) {
       stroke="white"
       fill="white"
       className="rounded-full cursor-pointer absolute hover:bg-white hover:fill-black hover:stroke-black"
-      style={{ top: top, left: left }}
       onClick={() => toggleIsClicked("")}
     >
       <g>
@@ -37,17 +26,15 @@ export default function CloseIcon({ section = "about" }: { section?: string }) {
     </svg>
   );
 
-  return popupFullScreen ? (
+  return (
     <motion.div
-      className="absolute top-0 left-0 right-0 flex justify-center"
+      style={{ position: "absolute", top: "-24px", left: "calc(50% - 12px)" }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.8 }}
+      transition={{ duration: 0.5 }}
     >
       {closeIcon}
     </motion.div>
-  ) : (
-    closeIcon
   );
 }

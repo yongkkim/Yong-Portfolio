@@ -9,9 +9,11 @@ import EmergingEffect from "@/components/EmergingEffect/EmergingEffect";
 import ExperienceCard from "@/components/ExperienceCard/ExperienceCard";
 import { useEffect, useState } from "react";
 import MobileExperienceCard from "@/components/MobileExperienceCard/MobileExperienceCard";
+import Popup from "@/components/Popup/Popup";
+import ExperienceTemplate from "@/components/Template/ExperienceTemplate";
 
 export default function ClientCareer() {
-  const { isVisibleSections, isMobile } = useStore();
+  const { isVisibleSections, isMobile, clickedSection } = useStore();
   const [isMobileView, setIsMobileView] = useState(false);
   const isVisible = isVisibleSections["career"];
 
@@ -57,6 +59,9 @@ export default function ClientCareer() {
           </div>
           <EmergingEffect delay={1}>
             {isMobileView ? <MobileExperienceCard /> : <ExperienceCard />}
+            {clickedSection === "career" && (
+              <Popup Template={ExperienceTemplate} />
+            )}
           </EmergingEffect>
         </>
       )}

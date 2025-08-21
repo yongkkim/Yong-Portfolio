@@ -5,7 +5,7 @@ import Menu from "@/components/Menu/Menu";
 import TypingEffect from "@/components/TypingEffect/TypingEffect";
 import { AnimatePresence, motion } from "framer-motion";
 import EmergingEffect from "@/components/EmergingEffect/EmergingEffect";
-import TwinkleCircle from "@/components/TwinkleCircle/TwinkleCircle";
+import TwinkleCircle from "@/components/CircleButton/CircleButton";
 import MobileMenu from "@/components/MobileMenu/MobileMenu";
 import Popup from "@/components/Popup/Popup";
 import { aboutInto } from "@/constants/constants";
@@ -25,7 +25,7 @@ export default function ClientAbout() {
     toggleIsClicked,
     popupContent,
     isVisibleSections,
-    popupFullScreen,
+    fullScreenPopup,
     isMobile,
   } = useStore();
 
@@ -101,13 +101,13 @@ export default function ClientAbout() {
               initial={{ x: "-25%", scale: lineProperties.scale }}
               animate={{
                 x:
-                  clickedSection === "about" && !popupFullScreen
+                  clickedSection === "about" && !fullScreenPopup
                     ? `${lineProperties.translateX - 10}%`
                     : `${lineProperties.translateX}%`,
                 scale: lineProperties.scale,
               }}
               transition={{ duration: 0.5 }}
-              className="absolute top-1/2 flex justify-center items-center pb-[45px]"
+              className="absolute top-1/2 flex justify-center items-center pb-[45px] z-[1]"
             >
               {lineSegments.map((line, index) => (
                 <motion.div
@@ -140,8 +140,8 @@ export default function ClientAbout() {
                       handleClick={() =>
                         toggleIsClicked(
                           "about",
-                          index,
-                          aboutInto[line.about - 1]
+                          aboutInto[line.about - 1].text,
+                          index
                         )
                       }
                     />
@@ -151,12 +151,7 @@ export default function ClientAbout() {
             </motion.div>
             <AnimatePresence mode="wait">
               {clickedSection === "about" && (
-                <Popup
-                  imgSrc={popupContent?.imgSrc}
-                  imgAlt={popupContent?.imgAlt}
-                  text={popupContent?.text}
-                  keepStyle={true}
-                ></Popup>
+                <Popup key="about-popup" text={popupContent}></Popup>
               )}
             </AnimatePresence>
           </EmergingEffect>
