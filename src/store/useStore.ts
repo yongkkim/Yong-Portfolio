@@ -13,7 +13,7 @@ interface contentObject {
 
 interface StoreState {
   clickedSection: string;
-  isMobileClicked: boolean;
+  isMobileMenuOpen: boolean;
   isMobile: boolean;
   popupContent: string[] | string;
   sectionIndex: number;
@@ -31,14 +31,14 @@ interface StoreState {
   ) => void;
   setSectionIndex: (updater: (prevIndex: number) => number) => void;
   setSectionVisible: (sectionId: string, visible: boolean) => void;
-  setIsMobileClicked: () => void;
+  setIsMobileMenuOpen: (isOpen: boolean) => void;
   setIsMobile: (mobile: boolean) => void;
   setSelectedContent: (content: contentObject) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
   clickedSection: "home",
-  isMobileClicked: false,
+  isMobileMenuOpen: false,
   isMobile: false,
   popupContent: "",
   sectionIndex: 0,
@@ -64,10 +64,10 @@ export const useStore = create<StoreState>((set) => ({
     set((state) => ({
       isVisibleSections: { ...state.isVisibleSections, [sectionId]: visible },
     })),
-  setIsMobileClicked: () =>
-    set((state) => ({
-      isMobileClicked: !state.isMobileClicked,
-    })),
+  setIsMobileMenuOpen: (isOpen) =>
+    set({
+      isMobileMenuOpen: isOpen,
+    }),
   setIsMobile: (value) => set({ isMobile: value }),
   setSelectedContent: (content) => set({ selectedContent: content }),
 }));

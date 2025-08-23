@@ -52,29 +52,33 @@ export default function TypingEffect({
   }, [delay]);
 
   useEffect(() => {
-    if (isCursorVisible && (section === "skills" || section == "projects")) {
-      const cursorFadeOut = setTimeout(
-        () => {
-          setIsCursorVisible(false);
-        },
-        delay + section === "skills" ? 1500 : 3200
-      );
+    if (
+      isCursorVisible &&
+      (!title || body) &&
+      (section === "skills" || section == "projects")
+    ) {
+      const cursorFadeOut = setTimeout(() => {
+        setIsCursorVisible(false);
+      }, delay + (section === "skills" ? 1500 : 3200));
       return () => clearTimeout(cursorFadeOut);
     }
   }, [isCursorVisible]);
 
   return (
     <motion.span
-      className="flex text-lg"
+      className="flex"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: 1 }} // You can sync this with EmergingEffect if needed
     >
       <h1
         className={clsx(
-          "text-white tracking-[-1px] text-3xl",
+          "text-white tracking-[-1px]",
           section === "home" && "stroke-text-md",
-          "max-md:text-2xl max-[475px]:text-xl stroke-text-sm"
+          "max-md:text-2xl stroke-text-sm",
+          (section === "projects" || section === "skills") && body
+            ? "md:text-lg max-md:text-base"
+            : "text-3xl max-[475px]:text-xl"
         )}
       >
         {text.slice(0, index)}
@@ -84,8 +88,11 @@ export default function TypingEffect({
           animate={{ opacity: [0, 1, 0] }}
           transition={{ repeat: Infinity, duration: 0.5 }}
           className={clsx(
-            "text-white ml-1 text-3xl",
-            "max-lg:text-2xl max-[475px]:leading-[1.5rem]"
+            "text-white ml-1",
+            "max-md:text-2xl",
+            (section === "projects" || section === "skills") && body
+              ? "md:text-lg max-md:text-base"
+              : "text-3xl max-[475px]:leading-[1.5rem]"
           )}
         >
           |

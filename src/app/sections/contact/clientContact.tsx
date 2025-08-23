@@ -135,177 +135,149 @@ export default function ClientContact() {
   };
 
   return (
-    <div className="h-screen flex flex-col w-full items-center relative">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute top-0 left-0 w-full h-full opacity-[0.3] z-[-1] object-cover"
+    <EmergingEffect delay={1}>
+      <div
+        className={clsx(
+          "absolute top-[25%] bg-[rgba(255,255,255,0.15)] flex flex-col items-center w-1/2 h-[65%] py-[8px] px-[20px] text-center rounded-[10px]",
+          "max-md:w-[90%] max-[1200px]:px-[10px] max-[1200px]:py-[4px]"
+        )}
       >
-        <source src="/contact.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-      <div className="overlay"></div>
-      {isVisible && (
-        <>
-          <div className="max-md:h-auto max-md:absolute max-md:top-0 max-md:left-0 max-md:right-0 max-md:m-auto">
-            {isMobile ? (
-              <MobileMenu />
-            ) : (
-              <Menu direction="row" size="50" delay={0} />
+        <div>
+          <h1
+            className={clsx(
+              "text-white text-[30px] font-bold",
+              "max-md:text-[25px]"
             )}
-          </div>
-          <div className="absolute top-[100px] left-[100px] max-md:left-0 max-md:right-0 max-md:flex max-md:justify-center">
-            <TypingEffect
-              section="career"
-              delay={1500}
-              text={"Let's chat: Work on things together!"}
-              speed={70}
+          >
+            Contact Me
+          </h1>
+          <span className="block text-white text-[13px] p-[6px]">
+            I’m always happy to connect — whether it’s about work, projects, or
+            any questions you may have. You can reach me by phone, email, or
+            LinkedIn, and feel free to download my resume!
+          </span>
+        </div>
+        <div className="flex justify-center my-[10px]">
+          <div className="relative group">
+            <img
+              onClick={() => getContactInfo("phone")}
+              className="w-[25px] mr-[3px] cursor-pointer"
+              src="/phone.svg"
             />
+            {contactType === "phone" && (
+              <Clipboard
+                ref={clipboardRef}
+                contactInfo={contacts[contactType]}
+                isCopied={isCopied}
+                setIsCopied={setIsCopied}
+              />
+            )}
+            {contactType !== "phone" && <PopupLabel label="Phone" />}
           </div>
-          <EmergingEffect delay={1}>
-            <div
-              className={clsx(
-                "absolute top-[25%] bg-[rgba(255,255,255,0.15)] flex flex-col items-center w-1/2 h-[65%] py-[8px] px-[100px] text-center rounded-[10px]",
-                "max-[1200px]:px-[20px]"
-              )}
+          <a
+            className="relative group"
+            href="https://www.linkedin.com/in/yongkuk-kim/"
+            target="_blank"
+            onClick={setToDefault}
+          >
+            <img
+              className="w-[26px] mr-[3px] rounded-[5px]"
+              src="/linkedin.svg"
+            />
+            <PopupLabel label="LinkedIn Profile" />
+          </a>
+          <div className="relative group">
+            <img
+              onClick={() => getContactInfo("email")}
+              className="w-[25px] mr-[3px] cursor-pointer"
+              src="/email.svg"
+            />
+            {contactType === "email" && (
+              <Clipboard
+                ref={clipboardRef}
+                contactInfo={contacts[contactType]}
+                isCopied={isCopied}
+                setIsCopied={setIsCopied}
+              />
+            )}
+            {contactType !== "email" && <PopupLabel label="Email" />}
+          </div>
+          <a className="relative group" href="Yong_Resume.pdf" download>
+            <img
+              onClick={setToDefault}
+              className="w-[25px] h-[25px] cursor-pointer"
+              src="/download.png"
+            />
+            <PopupLabel label="Download Resume" />
+          </a>
+        </div>
+        <div className="flex flex-col w-full mt-[10px]">
+          <h1 className="text-white text-[20px] mb-[10px] font-bold">
+            Send Message
+          </h1>
+          <form className="flex flex-col" onSubmit={handleSubmit}>
+            <input
+              className="mb-[7px] p-[5px] rounded-[5px]"
+              type="text"
+              placeholder="Name"
+              name="name"
+              value={formData.name}
+              onChange={(e) => handleChange(e)}
+              onFocus={handleFocus}
+              required
+            />
+            <input
+              className="mb-[7px] p-[5px] rounded-[5px]"
+              type="email"
+              placeholder="Email"
+              name="email"
+              value={formData.email}
+              onChange={(e) => handleChange(e)}
+              onFocus={handleFocus}
+              required
+            />
+            <textarea
+              className="mb-[7px] p-[5px] rounded-[5px] h-[100px]"
+              placeholder="Message"
+              name="message"
+              value={formData.message}
+              onChange={(e) => handleChange(e)}
+              onFocus={handleFocus}
+            />
+            <motion.button
+              initial={{ backgroundColor: "#149c73" }}
+              whileHover={{
+                backgroundColor: "rgb(38, 38, 38)",
+                transition: { duration: 0.2, ease: "easeInOut" },
+              }}
+              className="w-1/3 text-white font-bold rounded-[10px]"
+              onClick={() => setIsSubmitted(true)}
+              type="submit"
             >
-              <div>
-                <h1 className="text-white text-[35px] font-bold">Contact Me</h1>
-                <span className="text-white text-[13px] p-[10px]">
-                  I’m always happy to connect — whether it’s about work,
-                  projects, or any questions you may have. You can reach me by
-                  phone, email, or LinkedIn, and feel free to download my
-                  resume!
-                </span>
-              </div>
-              <div className="flex justify-center my-[10px]">
-                <div className="relative group">
-                  <img
-                    onClick={() => getContactInfo("phone")}
-                    className="w-[25px] mr-[3px] cursor-pointer"
-                    src="/phone.svg"
-                  />
-                  {contactType === "phone" && (
-                    <Clipboard
-                      ref={clipboardRef}
-                      contactInfo={contacts[contactType]}
-                      isCopied={isCopied}
-                      setIsCopied={setIsCopied}
+              <div className="flex items-center justify-center gap-1">
+                <span>{isSubmitted && isEmailSent ? "Sent" : "Send"}</span>
+                {isSubmitted && isEmailSent ? (
+                  <span className="w-[20px] h-[20px]">
+                    <motion.img
+                      src="/checkMark.svg"
+                      className="bg-white rounded-full p-[2px]"
+                      initial={false}
+                      animate={
+                        isSubmitted && isEmailSent
+                          ? { y: [0, -5, 0] }
+                          : { y: 0 }
+                      }
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
                     />
-                  )}
-                  {contactType !== "phone" && <PopupLabel label="Phone" />}
-                </div>
-                <a
-                  className="relative group"
-                  href="https://www.linkedin.com/in/yongkuk-kim/"
-                  target="_blank"
-                  onClick={setToDefault}
-                >
-                  <img
-                    className="w-[26px] mr-[3px] rounded-[5px]"
-                    src="/linkedin.svg"
-                  />
-                  <PopupLabel label="LinkedIn Profile" />
-                </a>
-                <div className="relative group">
-                  <img
-                    onClick={() => getContactInfo("email")}
-                    className="w-[25px] mr-[3px] cursor-pointer"
-                    src="/email.svg"
-                  />
-                  {contactType === "email" && (
-                    <Clipboard
-                      ref={clipboardRef}
-                      contactInfo={contacts[contactType]}
-                      isCopied={isCopied}
-                      setIsCopied={setIsCopied}
-                    />
-                  )}
-                  {contactType !== "email" && <PopupLabel label="Email" />}
-                </div>
-                <a className="relative group" href="Yong_Resume.pdf" download>
-                  <img
-                    onClick={setToDefault}
-                    className="w-[25px] h-[25px] cursor-pointer"
-                    src="/download.png"
-                  />
-                  <PopupLabel label="Download Resume" />
-                </a>
+                  </span>
+                ) : isSubmitted ? (
+                  <Loading />
+                ) : null}
               </div>
-              <div className="flex flex-col w-full mt-[10px]">
-                <h1 className="text-white text-[20px] mb-[10px] font-bold">
-                  Send Message
-                </h1>
-                <form className="flex flex-col" onSubmit={handleSubmit}>
-                  <input
-                    className="mb-[7px] p-[5px] rounded-[5px]"
-                    type="text"
-                    placeholder="Name"
-                    name="name"
-                    value={formData.name}
-                    onChange={(e) => handleChange(e)}
-                    onFocus={handleFocus}
-                    required
-                  />
-                  <input
-                    className="mb-[7px] p-[5px] rounded-[5px]"
-                    type="email"
-                    placeholder="Email"
-                    name="email"
-                    value={formData.email}
-                    onChange={(e) => handleChange(e)}
-                    onFocus={handleFocus}
-                    required
-                  />
-                  <textarea
-                    className="mb-[7px] p-[5px] rounded-[5px] h-[100px]"
-                    placeholder="Message"
-                    name="message"
-                    value={formData.message}
-                    onChange={(e) => handleChange(e)}
-                    onFocus={handleFocus}
-                  />
-                  <motion.button
-                    initial={{ backgroundColor: "#149c73" }}
-                    whileHover={{
-                      backgroundColor: "rgb(38, 38, 38)",
-                      transition: { duration: 0.2, ease: "easeInOut" },
-                    }}
-                    className="w-1/3 text-white font-bold rounded-[10px]"
-                    onClick={() => setIsSubmitted(true)}
-                    type="submit"
-                  >
-                    <div className="flex items-center justify-center gap-1">
-                      <span>
-                        {isSubmitted && isEmailSent ? "Sent" : "Send"}
-                      </span>
-                      {isSubmitted && isEmailSent ? (
-                        <span className="w-[20px] h-[20px]">
-                          <motion.img
-                            src="/checkMark.svg"
-                            className="bg-white rounded-full p-[2px]"
-                            initial={false}
-                            animate={
-                              isSubmitted && isEmailSent
-                                ? { y: [0, -5, 0] }
-                                : { y: 0 }
-                            }
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                          />
-                        </span>
-                      ) : isSubmitted ? (
-                        <Loading />
-                      ) : null}
-                    </div>
-                  </motion.button>
-                </form>
-              </div>
-            </div>
-          </EmergingEffect>
-        </>
-      )}
-    </div>
+            </motion.button>
+          </form>
+        </div>
+      </div>
+    </EmergingEffect>
   );
 }

@@ -1,12 +1,13 @@
 import { useStore } from "@/store/useStore";
 import Menu from "../Menu/Menu";
+import { useEffect } from "react";
 
 export default function MobileMenu() {
-  const { isMobileClicked, setIsMobileClicked } = useStore();
+  const { isMobileMenuOpen, setIsMobileMenuOpen } = useStore();
 
   return (
     <>
-      {isMobileClicked ? (
+      {isMobileMenuOpen ? (
         <>
           <svg
             width="40px"
@@ -15,7 +16,7 @@ export default function MobileMenu() {
             fill="white"
             stroke="white"
             xmlns="http://www.w3.org/2000/svg"
-            onClick={() => setIsMobileClicked()}
+            onClick={() => setIsMobileMenuOpen(false)}
             className="cursor-pointer"
           >
             <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -43,7 +44,7 @@ export default function MobileMenu() {
           fill="white"
           stroke="white"
           xmlns="http://www.w3.org/2000/svg"
-          onClick={() => setIsMobileClicked()}
+          onClick={() => setIsMobileMenuOpen(true)}
           className="cursor-pointer"
         >
           <g id="SVGRepo_bgCarrier"></g>

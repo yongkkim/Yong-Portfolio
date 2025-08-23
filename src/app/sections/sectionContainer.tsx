@@ -11,19 +11,14 @@ import Contact from "./contact/page";
 import SectionWithAnimation from "@/components/SectionWithAnimation/SectionWithAnimation";
 
 export default function SectionContainer() {
-  const {
-    sectionIndex,
-    setSectionIndex,
-    toggleIsClicked,
-    clickedSection,
-    isMobileClicked,
-    setIsMobileClicked,
-    isMobile,
-  } = useStore();
+  const { sectionIndex, setSectionIndex, toggleIsClicked, clickedSection } =
+    useStore();
 
   // Detect scroll direction and update sectionIndex
   let isScrolling = false;
   const handleScroll = (event: WheelEvent) => {
+    const { clickedSection, isMobileMenuOpen, setIsMobileMenuOpen, isMobile } =
+      useStore.getState();
     if (clickedSection !== "" && clickedSection !== "home") return;
 
     if (isScrolling) return;
@@ -35,13 +30,16 @@ export default function SectionContainer() {
 
     setSectionIndex((prevIndex) => {
       const nextIndex = event.deltaY > 0 ? prevIndex + 1 : prevIndex - 1;
-      if (!isMobileClicked && isMobile) setIsMobileClicked();
+      if (isMobileMenuOpen && isMobile) {
+        setIsMobileMenuOpen(false);
+      }
       return Math.max(0, Math.min(nextIndex, 5));
     });
   };
 
   useEffect(() => {
     window.addEventListener("wheel", handleScroll, { passive: false });
+
     return () => window.removeEventListener("wheel", handleScroll);
   }, [clickedSection]);
 
@@ -59,19 +57,39 @@ export default function SectionContainer() {
       <section id="home">
         <Home />
       </section>
-      <SectionWithAnimation id="about">
+      <SectionWithAnimation
+        id="about"
+        title="ABOUT ME: A BULLISH TREND IN MY LIFE"
+        video="/aboutBG.mp4"
+      >
         <About />
       </SectionWithAnimation>
-      <SectionWithAnimation id="career">
+      <SectionWithAnimation
+        id="career"
+        title="MY CAREER: DRIVEN BY GROWTH"
+        video="/careerBG.mp4"
+      >
         <Career />
       </SectionWithAnimation>
-      <SectionWithAnimation id="projects">
+      <SectionWithAnimation
+        id="projects"
+        title="MY PROJECTS: IDEAS IN ACTION"
+        video="/projectBG.mp4"
+      >
         <Project />
       </SectionWithAnimation>
-      <SectionWithAnimation id="skills">
+      <SectionWithAnimation
+        id="skills"
+        title="MY SKILLS: MASTER THE STACK"
+        video="/skills.mp4"
+      >
         <Skills />
       </SectionWithAnimation>
-      <SectionWithAnimation id="contact">
+      <SectionWithAnimation
+        id="contact"
+        title="LET'S CHAT: WORK ON THINGS TOGETHER!"
+        video="/contact.mp4"
+      >
         <Contact />
       </SectionWithAnimation>
     </main>

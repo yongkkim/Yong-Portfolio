@@ -46,9 +46,11 @@ export default function Popup({
         ref={popupRef}
         key="popup"
         className={clsx(
-          "z-40 absolute top-[200px] md:right-[20px] w-[35%] pr-[20px]",
-          Template && "max-lg:w-[80%]",
-          Template ? "max-md:absolute md:right-auto" : "max-md:relative",
+          "z-40 absolute top-[200px] md:right-[20px] w-[35%] pr-[20px] justify-center",
+          // Template && "max-lg:",
+          Template
+            ? "max-md:absolute md:right-auto xl:w-[50%] w-[80%]"
+            : "max-md:relative",
           Template && clickedSection === "career" && "max-[576px]:top-[100px]",
           "max-md:flex max-md:w-full max-md:items-center max-md:pr-0 max-md:mx-auto max-md:bg-[rgba(0,0,0,0.7)] max-md:bg-opacity-[0.35]"
         )}

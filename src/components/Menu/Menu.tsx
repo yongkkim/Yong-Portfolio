@@ -18,8 +18,8 @@ export default function Menu({
   const {
     sectionIndex,
     setSectionIndex,
-    isMobileClicked,
-    setIsMobileClicked,
+    isMobileMenuOpen,
+    setIsMobileMenuOpen,
     isMobile,
   } = useStore();
   const [flexDirection, setFlexDirection] = useState<string>(
@@ -44,7 +44,7 @@ export default function Menu({
     const handleResize = () => {
       const width = window.innerWidth;
 
-      if (isMobileClicked) {
+      if (isMobileMenuOpen) {
         setFlexDirection("flex-col");
         setMenuBG("mobile-menu-background");
       } else if (width < 768) {
@@ -58,18 +58,18 @@ export default function Menu({
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, [isMobileClicked, direction]);
+  }, [isMobileMenuOpen, direction]);
 
   const handleSectionClick = (index: number, id: string) => {
     setSectionIndex(() => index);
     scrollToSection(id);
     if (isMobile) {
-      setIsMobileClicked();
+      setIsMobileMenuOpen(false);
     }
   };
 
   const handleLineDelay = () => {
-    return isMobileClicked ? 0 : 1;
+    return isMobileMenuOpen ? 0 : 1;
   };
   return (
     <nav className={`flex flex-col items-center ${menuSize}`}>
