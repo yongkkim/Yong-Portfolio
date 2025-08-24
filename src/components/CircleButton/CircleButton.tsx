@@ -1,16 +1,16 @@
 import { motion } from "framer-motion";
 
-interface TwinkleCircleProps {
+interface CircleButtonProps {
   label?: string;
   isClicked: boolean;
   handleClick?: () => void;
 }
 
-export default function TwinkleCircle({
+export default function CircleButton({
   label,
   isClicked,
   handleClick = () => {},
-}: TwinkleCircleProps) {
+}: CircleButtonProps) {
   return (
     <div className="relative group">
       <label className="absolute left-[-20px] top-[-45px] whitespace-nowrap text-white pointer-events-none group-hover:stroke-text-sm">

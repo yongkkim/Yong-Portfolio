@@ -85,4 +85,8 @@ body {
   .label::before {
     border-color: rgb(20, 156, 115) transparent transparent;
   }
+
+  .error::before {
+    border-color: rgb(206, 83, 83) transparent transparent;
+  }
 }

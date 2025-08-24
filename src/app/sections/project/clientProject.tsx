@@ -1,12 +1,9 @@
 "use client";
 
-import TypingEffect from "@/components/TypingEffect/TypingEffect";
 import { useStore } from "@/store/useStore";
-import Menu from "@/components/Menu/Menu";
-import MobileMenu from "@/components/MobileMenu/MobileMenu";
 import clsx from "clsx";
 import EmergingEffect from "@/components/EmergingEffect/EmergingEffect";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Popup from "@/components/Popup/Popup";
 import { projects } from "@/constants/constants";
@@ -24,20 +21,7 @@ interface contentObject {
 }
 
 export default function ClientProject() {
-  const { isVisibleSections, isMobile, popupContent, setSelectedContent } =
-    useStore();
-  const [isMobileView, setIsMobileView] = useState(false);
-  const isVisible = isVisibleSections["projects"];
-
-  useEffect(() => {
-    const updateExpView = () => {
-      setIsMobileView(window.innerWidth < 600);
-    };
-
-    updateExpView();
-    window.addEventListener("resize", updateExpView);
-    return () => window.removeEventListener("resize", updateExpView);
-  }, []);
+  const { setSelectedContent } = useStore();
 
   const { toggleIsClicked, clickedSection } = useStore();
   const [hoveredIndex, setHoveredIndex] = useState<number>(-1);

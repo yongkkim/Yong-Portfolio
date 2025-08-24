@@ -1,23 +1,16 @@
 "use client";
 
-import TypingEffect from "@/components/TypingEffect/TypingEffect";
-import { useStore } from "@/store/useStore";
-import Menu from "@/components/Menu/Menu";
-import MobileMenu from "@/components/MobileMenu/MobileMenu";
 import clsx from "clsx";
 import EmergingEffect from "@/components/EmergingEffect/EmergingEffect";
 import { useEffect, useRef, useState } from "react";
 import React from "react";
 import Clipboard from "@/components/Clipboard/Clipboard";
-import LineEffect from "@/components/LineEffect/LineEffect";
 import Loading from "@/components/Loading/Loading";
 import { motion } from "framer-motion";
-import PopupLabel from "@/components/PopupLabel/PopupLabel";
+import Tooltip from "@/components/Tooltip/Tooltip";
+import DOMPurify from "dompurify";
 
 export default function ClientContact() {
-  const { isVisibleSections, isMobile } = useStore();
-  const [isMobileView, setIsMobileView] = useState(false);
-  const isVisible = isVisibleSections["contact"];
   const [contactType, setContactType] = useState("");
   const [isCopied, setIsCopied] = useState(false);
   const [isEmailSent, setIsEmailSent] = useState(false);
@@ -27,18 +20,16 @@ export default function ClientContact() {
     email: "",
     message: "",
   });
+  const [formDataError, setFormDataError] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const MAX_NAME = 20;
+  const MAX_EMAIL = 50;
+  const MAX_MESSAGE = 1000;
 
-  useEffect(() => {
-    if (!isEmailSent && !isSubmitted) {
-      setTimeout(() => {
-        setIsSubmitted(true);
-      }, 6000);
-
-      setTimeout(() => {
-        setIsEmailSent(true);
-      }, 7500);
-    }
-  }, []);
+  type FieldName = "name" | "email" | "message";
 
   useEffect(() => {
     if (isEmailSent && isSubmitted) {
@@ -61,16 +52,6 @@ export default function ClientContact() {
   };
 
   useEffect(() => {
-    const updateExpView = () => {
-      setIsMobileView(window.innerWidth < 600);
-    };
-
-    updateExpView();
-    window.addEventListener("resize", updateExpView);
-    return () => window.removeEventListener("resize", updateExpView);
-  }, []);
-
-  useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
         clipboardRef.current &&
@@ -91,13 +72,75 @@ export default function ClientContact() {
     setIsCopied(false);
   };
 
+  const formatFieldName = (field: string) =>
+    field.charAt(0).toUpperCase() + field.slice(1);
+
+  const validateFormData = (field: string, value: string) => {
+    const trimmedValue = value.trim();
+    const fieldName = formatFieldName(field);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    switch (field) {
+      case "name":
+        if (!trimmedValue) {
+          return `${fieldName} is required.`;
+        }
+        break;
+      case "email":
+        if (!trimmedValue) {
+          return `${fieldName} is required.`;
+        } else if (!emailRegex.test(trimmedValue)) {
+          return "Please enter a valid email.";
+        }
+        break;
+      case "message":
+        if (!trimmedValue) {
+          return `${fieldName} is required.`;
+        }
+        break;
+      default:
+        return "";
+    }
+  };
+
   const handleChange = (
     e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.currentTarget;
+    const fieldName = name as FieldName;
+    let validatedValue = value;
+
+    if (fieldName === "name" && validatedValue.length > MAX_NAME) {
+      validatedValue = validatedValue.slice(0, MAX_NAME);
+    }
+    if (fieldName === "email" && validatedValue.length > MAX_EMAIL) {
+      validatedValue = validatedValue.slice(0, MAX_EMAIL);
+    }
+    if (fieldName === "message" && validatedValue.length > MAX_MESSAGE) {
+      validatedValue = validatedValue.slice(0, MAX_MESSAGE);
+    }
+
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: validatedValue,
+    }));
+
+    if (formDataError[fieldName]) {
+      setFormDataError((prev) => ({
+        ...prev,
+        [name]: validateFormData(name, formData[fieldName]),
+      }));
+    }
+  };
+
+  const handleBlur = (
+    e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name } = e.currentTarget;
+    const fieldName = name as FieldName;
+    setFormDataError((prev) => ({
+      ...prev,
+      [name]: validateFormData(name, formData[fieldName]),
     }));
   };
 
@@ -107,28 +150,56 @@ export default function ClientContact() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Sanitize inputs first
+    const sanitizedName = DOMPurify.sanitize(formData.name);
+    const sanitizedEmail = DOMPurify.sanitize(formData.email);
+    const sanitizedMessage = DOMPurify.sanitize(formData.message);
+
+    // Run validation on sanitized values
+    const nameError = validateFormData("name", sanitizedName);
+    const emailError = validateFormData("email", sanitizedEmail);
+    const messageError = validateFormData("message", sanitizedMessage);
+
+    setFormDataError({
+      name: nameError || "",
+      email: emailError || "",
+      message: messageError || "",
+    });
+
+    if (nameError || emailError || messageError) {
+      setFormData({
+        name: sanitizedName,
+        email: sanitizedEmail,
+        message: sanitizedMessage,
+      });
+
+      return;
+    }
+
+    setIsSubmitted(true);
+
     if (isEmailSent) {
       setIsEmailSent(false);
     }
 
-    e.preventDefault();
+    // Prepare data
     const data = {
-      name: formData.name,
-      email: formData.email,
-      message: formData.message,
+      name: sanitizedName,
+      email: sanitizedEmail,
+      message: sanitizedMessage,
     };
 
+    // Post request
     const res = await fetch("/api/sendEmail", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
+
     if (res.ok) {
-      setTimeout(() => {
-        setIsEmailSent(true);
-      }, 1500);
+      setTimeout(() => setIsEmailSent(true), 1500);
       console.log("Email has been sent");
       setFormData({ name: "", email: "", message: "" });
     }
@@ -172,7 +243,7 @@ export default function ClientContact() {
                 setIsCopied={setIsCopied}
               />
             )}
-            {contactType !== "phone" && <PopupLabel label="Phone" />}
+            {contactType !== "phone" && <Tooltip label="Phone" />}
           </div>
           <a
             className="relative group"
@@ -184,7 +255,7 @@ export default function ClientContact() {
               className="w-[26px] mr-[3px] rounded-[5px]"
               src="/linkedin.svg"
             />
-            <PopupLabel label="LinkedIn Profile" />
+            <Tooltip label="LinkedIn Profile" />
           </a>
           <div className="relative group">
             <img
@@ -200,7 +271,7 @@ export default function ClientContact() {
                 setIsCopied={setIsCopied}
               />
             )}
-            {contactType !== "email" && <PopupLabel label="Email" />}
+            {contactType !== "email" && <Tooltip label="Email" />}
           </div>
           <a className="relative group" href="Yong_Resume.pdf" download>
             <img
@@ -208,42 +279,61 @@ export default function ClientContact() {
               className="w-[25px] h-[25px] cursor-pointer"
               src="/download.png"
             />
-            <PopupLabel label="Download Resume" />
+            <Tooltip label="Download Resume" />
           </a>
         </div>
         <div className="flex flex-col w-full mt-[10px]">
           <h1 className="text-white text-[20px] mb-[10px] font-bold">
             Send Message
           </h1>
-          <form className="flex flex-col" onSubmit={handleSubmit}>
-            <input
-              className="mb-[7px] p-[5px] rounded-[5px]"
-              type="text"
-              placeholder="Name"
-              name="name"
-              value={formData.name}
-              onChange={(e) => handleChange(e)}
-              onFocus={handleFocus}
-              required
-            />
-            <input
-              className="mb-[7px] p-[5px] rounded-[5px]"
-              type="email"
-              placeholder="Email"
-              name="email"
-              value={formData.email}
-              onChange={(e) => handleChange(e)}
-              onFocus={handleFocus}
-              required
-            />
-            <textarea
-              className="mb-[7px] p-[5px] rounded-[5px] h-[100px]"
-              placeholder="Message"
-              name="message"
-              value={formData.message}
-              onChange={(e) => handleChange(e)}
-              onFocus={handleFocus}
-            />
+          <form className="flex flex-col" onSubmit={handleSubmit} noValidate>
+            <div className="relative w-full">
+              <input
+                className="mb-[7px] p-[5px] rounded-[5px] w-full"
+                type="text"
+                placeholder="Name"
+                name="name"
+                value={formData.name}
+                onChange={(e) => handleChange(e)}
+                onBlur={(e) => handleBlur(e)}
+                onFocus={handleFocus}
+                required
+              />
+              {formDataError.name && (
+                <Tooltip label={formDataError.name} errMsg={true} />
+              )}
+            </div>
+            <div className="relative w-full">
+              <input
+                className="mb-[7px] p-[5px] rounded-[5px] w-full"
+                type="email"
+                placeholder="Email"
+                name="email"
+                value={formData.email}
+                onChange={(e) => handleChange(e)}
+                onBlur={(e) => handleBlur(e)}
+                onFocus={handleFocus}
+                required
+              />
+              {formDataError.email && (
+                <Tooltip label={formDataError.email} errMsg={true} />
+              )}
+            </div>
+            <div className="relative w-full">
+              <textarea
+                className="mb-[7px] p-[5px] rounded-[5px] h-[100px] w-full"
+                placeholder="Message"
+                name="message"
+                value={formData.message}
+                onChange={(e) => handleChange(e)}
+                onBlur={(e) => handleBlur(e)}
+                onFocus={handleFocus}
+                required
+              />
+              {formDataError.message && (
+                <Tooltip label={formDataError.message} errMsg={true} />
+              )}
+            </div>
             <motion.button
               initial={{ backgroundColor: "#149c73" }}
               whileHover={{
@@ -251,7 +341,6 @@ export default function ClientContact() {
                 transition: { duration: 0.2, ease: "easeInOut" },
               }}
               className="w-1/3 text-white font-bold rounded-[10px]"
-              onClick={() => setIsSubmitted(true)}
               type="submit"
             >
               <div className="flex items-center justify-center gap-1">

@@ -16,13 +16,7 @@ export default function SectionWithAnimation({
   video: string;
   children: React.ReactNode;
 }) {
-  const {
-    isVisibleSections,
-    setSectionVisible,
-    isMobile,
-    clickedSection,
-    sectionIndex,
-  } = useStore();
+  const { isVisibleSections, setSectionVisible, isMobile } = useStore();
   const isVisible = isVisibleSections[id];
   const sectionRef = useRef(null);
   useEffect(() => {

@@ -1,32 +1,12 @@
 "use client";
 
 import TypingEffect from "@/components/TypingEffect/TypingEffect";
-import { useStore } from "@/store/useStore";
-import Menu from "@/components/Menu/Menu";
-import MobileMenu from "@/components/MobileMenu/MobileMenu";
 import clsx from "clsx";
 import EmergingEffect from "@/components/EmergingEffect/EmergingEffect";
-import { useEffect, useState } from "react";
 import { skills, skillAreas } from "@/constants/constants";
 import React from "react";
 
 export default function ClientSkills() {
-  const { isVisibleSections, isMobile, toggleIsClicked } = useStore();
-  const [isMobileView, setIsMobileView] = useState(false);
-  const isVisible = isVisibleSections["skills"];
-
-  useEffect(() => {
-    const updateExpView = () => {
-      setIsMobileView(window.innerWidth < 600);
-    };
-
-    toggleIsClicked("skills");
-
-    updateExpView();
-    window.addEventListener("resize", updateExpView);
-    return () => window.removeEventListener("resize", updateExpView);
-  }, []);
-
   return (
     <div
       className={clsx(

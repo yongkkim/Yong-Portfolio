@@ -1,17 +1,13 @@
 "use client";
 
 import { useStore } from "@/store/useStore";
-import Menu from "@/components/Menu/Menu";
-import TypingEffect from "@/components/TypingEffect/TypingEffect";
 import { AnimatePresence, motion } from "framer-motion";
 import EmergingEffect from "@/components/EmergingEffect/EmergingEffect";
-import TwinkleCircle from "@/components/CircleButton/CircleButton";
-import MobileMenu from "@/components/MobileMenu/MobileMenu";
+import CircleButton from "@/components/CircleButton/CircleButton";
 import Popup from "@/components/Popup/Popup";
 import { aboutInto } from "@/constants/constants";
 import { lineSegments } from "@/constants/constants";
 import { useState, useEffect } from "react";
-import clsx from "clsx";
 
 interface LineProperties {
   scale: number;
@@ -24,12 +20,8 @@ export default function ClientAbout() {
     clickedIndex,
     toggleIsClicked,
     popupContent,
-    isVisibleSections,
     fullScreenPopup,
-    isMobile,
   } = useStore();
-
-  const isVisible = isVisibleSections["about"];
 
   const [lineProperties, setLineProperties] = useState<LineProperties>({
     scale: 1,
@@ -97,7 +89,7 @@ export default function ClientAbout() {
               </div>
             )}
             {line.isHoverable && line.about && (
-              <TwinkleCircle
+              <CircleButton
                 label={aboutInto[line.about - 1].label}
                 isClicked={clickedIndex === index}
                 handleClick={() =>
