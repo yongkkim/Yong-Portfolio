@@ -27,7 +27,7 @@ export default function ExperienceTemplate() {
     // heavily darken the "to"
     const toColor = darkenColor(selectedContent.bgColor, 0.6);
 
-    return `linear-gradient(to bottom right, ${fromColor}, ${toColor})`;
+    return `linear-gradient(to left right, ${fromColor}, ${toColor})`;
   };
 
   return (

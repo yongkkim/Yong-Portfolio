@@ -106,11 +106,13 @@ export default function ClientProject() {
                         Descriptions
                       </LineEffect>
                     </span>
-                    <span className="p-[10px] cursor-pointer">
-                      <LineEffect delay={0} paddingBottom="5px">
-                        Video
-                      </LineEffect>
-                    </span>
+                    {proj.menu.demo.demoable && (
+                      <span className="p-[10px] cursor-pointer">
+                        <LineEffect delay={0} paddingBottom="5px">
+                          Video
+                        </LineEffect>
+                      </span>
+                    )}
                     <a
                       href={proj.menu.repo}
                       target="_blank"

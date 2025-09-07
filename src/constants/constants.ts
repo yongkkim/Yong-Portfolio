@@ -153,13 +153,16 @@ export const projects = [
         "Tailwind",
         "Framer Motion",
       ],
-      demo: "",
+      demo: {
+        demoable: false,
+        source: "",
+      },
       repo: "https://github.com/yongkkim/Yong-Portfolio",
     },
   },
   {
     name: "Image Gallery",
-    image: "/portfolio.png",
+    image: "/imageGallery.png",
     menu: {
       description: [
         "• Developed a responsive and scalable photo gallery application using React, Redux Toolkit, TypeScript, and Tailwind CSS, with a modular and maintainable code structure.",
@@ -176,7 +179,10 @@ export const projects = [
         "Express.js",
         "MS SQL Server",
       ],
-      demo: "",
+      demo: {
+        demoable: true,
+        source: "",
+      },
       repo: "https://github.com/yongkkim/ImageGallery",
     },
   },
