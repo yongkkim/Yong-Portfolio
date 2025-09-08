@@ -1,7 +1,4 @@
 import { useStore } from "@/store/useStore";
-import { useState, useEffect } from "react";
-// "use client";
-
 import { motion } from "framer-motion";
 
 export default function CloseIcon() {

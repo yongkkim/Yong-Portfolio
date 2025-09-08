@@ -1,8 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import Popup from "../Popup/Popup";
-import { useStore } from "@/store/useStore";
 import clsx from "clsx";
 
 export default function EmergingEffect({

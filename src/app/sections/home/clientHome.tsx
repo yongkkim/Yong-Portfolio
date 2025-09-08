@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import TypingEffect from "@/components/TypingEffect/TypingEffect";
 import Menu from "@/components/Menu/Menu";
 import { summary } from "@/constants/constants";
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import MobileMenu from "@/components/MobileMenu/MobileMenu";
 import clsx from "clsx";
 import { useStore } from "@/store/useStore";
@@ -57,7 +57,7 @@ export default function ClientHome() {
               "max-[475px]:text-[15px]"
             )}
           >
-            Hi, I'm Yong Kuk Kim
+            Hi, I&apos;m Yong Kuk Kim
           </motion.h1>
         </div>
         <TypingEffect delay={2000} text={"FRONTEND DEVELOPER"} />

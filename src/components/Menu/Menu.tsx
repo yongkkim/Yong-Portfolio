@@ -2,7 +2,7 @@
 
 import LineEffect from "@/components/LineEffect/LineEffect";
 import { motion } from "framer-motion";
-import { useState, useEffect, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 import { useStore } from "@/store/useStore";
 import clsx from "clsx";
 
@@ -27,7 +27,6 @@ export default function Menu({
   );
   const [menuSize, setMenuSize] = useState<string>(size);
   const [menuBG, setMenuBG] = useState<string>("menu-background");
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -35,10 +34,6 @@ export default function Menu({
   useEffect(() => {
     setMenuSize(size !== "" ? `w-[${size}%]` : "");
   }, []);
-
-  useEffect(() => {
-    setCurrentIndex(sectionIndex);
-  }, [sectionIndex]);
 
   useEffect(() => {
     const handleResize = () => {

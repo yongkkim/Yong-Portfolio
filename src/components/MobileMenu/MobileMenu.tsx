@@ -1,6 +1,5 @@
 import { useStore } from "@/store/useStore";
 import Menu from "../Menu/Menu";
-import { useEffect } from "react";
 
 export default function MobileMenu() {
   const { isMobileMenuOpen, setIsMobileMenuOpen } = useStore();

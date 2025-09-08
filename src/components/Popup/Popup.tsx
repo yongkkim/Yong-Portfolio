@@ -13,7 +13,7 @@ export default function Popup({
   imgSrc?: string;
   imgAlt?: string;
   text?: string[] | string;
-  Template?: React.ComponentType<{}>;
+  Template?: React.ComponentType<Record<string, never>>;
   keepStyle?: boolean;
 }) {
   const popupRef = useRef<HTMLDivElement | null>(null);

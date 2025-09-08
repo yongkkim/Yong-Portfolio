@@ -1,7 +1,5 @@
 import { useStore } from "@/store/useStore";
 import { experience } from "@/constants/constants";
-import Popup from "@/components/Popup/Popup";
-import { useState } from "react";
 import clsx from "clsx";
 
 interface expObject {
@@ -13,8 +11,7 @@ interface expObject {
 }
 
 export default function MobileExperienceCard() {
-  const { toggleIsClicked, clickedSection, setSelectedContent } = useStore();
-  const [hoveredIndex, setHoveredIndex] = useState<number>();
+  const { toggleIsClicked, setSelectedContent } = useStore();
 
   const handleClick = (exp: expObject) => {
     toggleIsClicked("career");
@@ -28,15 +25,9 @@ export default function MobileExperienceCard() {
       )}
     >
       <div className={clsx("flex flex-col gap-4 h-full")}>
-        {experience.map((exp, index) => (
+        {experience.map((exp) => (
           <div
             key={exp.company}
-            onMouseEnter={() => {
-              setHoveredIndex(index);
-            }}
-            onMouseLeave={() => {
-              setHoveredIndex(index);
-            }}
             onClick={() => {
               handleClick(exp);
             }}

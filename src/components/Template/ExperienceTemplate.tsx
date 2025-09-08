@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import LineEffect from "../LineEffect/LineEffect";
 import { useStore } from "@/store/useStore";
 
 export default function ExperienceTemplate() {

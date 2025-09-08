@@ -1,11 +1,9 @@
 import { useStore } from "@/store/useStore";
 import { experience as experienceData } from "@/constants/constants";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Arrow from "@/components/Arrow/Arrow";
-import Popup from "@/components/Popup/Popup";
 import { useState } from "react";
 import clsx from "clsx";
-import ExperienceTemplate from "../Template/ExperienceTemplate";
 
 interface expObject {
   company: string;
@@ -17,7 +15,7 @@ interface expObject {
 }
 
 export default function ExperienceCard() {
-  const { toggleIsClicked, clickedSection, setSelectedContent } = useStore();
+  const { toggleIsClicked, setSelectedContent } = useStore();
   const [experience, updateExperience] =
     useState<Array<expObject>>(experienceData);
   const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -86,7 +84,9 @@ export default function ExperienceCard() {
               if (index === middleIndex) setIsHovered(false);
             }}
             onClick={() => {
-              index === middleIndex ? handleSelectExp(exp) : {};
+              if (index === middleIndex) {
+                handleSelectExp(exp);
+              }
             }}
             className={clsx(
               "relative w-[250px] h-full bg-[rgba(111,190,169,0.77)] p-4 flex flex-col items-center rounded-[20px] justify-start",

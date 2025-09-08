@@ -60,4 +60,6 @@ const Clipboard = forwardRef<HTMLDivElement, ClipboardPopupProps>(
   }
 );
 
+Clipboard.displayName = "Clipboard"; // To fix ESLint error
+
 export default Clipboard;
