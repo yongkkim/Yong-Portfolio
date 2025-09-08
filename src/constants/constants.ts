@@ -162,7 +162,7 @@ export const projects = [
   },
   {
     name: "Image Gallery",
-    image: "/imageGallery.png",
+    image: "/image_gallery.png",
     menu: {
       description: [
         "• Developed a responsive and scalable photo gallery application using React, Redux Toolkit, TypeScript, and Tailwind CSS, with a modular and maintainable code structure.",
