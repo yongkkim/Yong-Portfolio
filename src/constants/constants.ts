@@ -120,7 +120,7 @@ export const experience = [
   {
     company: "Ontario Ministry of Children, Community and Social Services",
     position: "Junior Application QA Tester",
-    duration: "01/2018 - 12/2019",
+    duration: "01/2018 - 12/2018",
     logo: "/ministry.png",
     description: [
       "• Conducted QA testing on applications within an Agile development environment.",
