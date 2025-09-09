@@ -43,6 +43,37 @@ export default function SectionContainer() {
     return () => window.removeEventListener("wheel", handleScroll);
   }, [clickedSection]);
 
+  useEffect(() => {
+    let startY = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      startY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      const endY = e.changedTouches[0].clientY;
+      const deltaY = startY - endY;
+
+      if (Math.abs(deltaY) > 30) {
+        setSectionIndex((prevIndex) => {
+          if (deltaY > 0) {
+            return Math.min(prevIndex + 1, 5);
+          } else {
+            return Math.max(prevIndex - 1, 0);
+          }
+        });
+      }
+    };
+
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
+
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, []);
+
   // Automatically scroll to the updated section
   useEffect(() => {
     const sections = document.getElementsByTagName("section");
