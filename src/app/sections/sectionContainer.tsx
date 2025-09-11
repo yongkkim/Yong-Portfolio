@@ -9,10 +9,34 @@ import Project from "./project/page";
 import Skills from "./skills/page";
 import Contact from "./contact/page";
 import SectionWithAnimation from "@/components/SectionWithAnimation/SectionWithAnimation";
+import clsx from "clsx";
+import Menu from "@/components/Menu/Menu";
+import MobileMenu from "@/components/MobileMenu/MobileMenu";
 
 export default function SectionContainer() {
-  const { sectionIndex, setSectionIndex, toggleIsClicked, clickedSection } =
-    useStore();
+  const {
+    sectionIndex,
+    setSectionIndex,
+    toggleIsClicked,
+    clickedSection,
+    setIsMobile,
+    setFullScreenPopup,
+    isMobile,
+  } = useStore();
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobile = window.innerWidth < 768; // Tailwind md breakpoint
+      setIsMobile(isMobile);
+      setFullScreenPopup(isMobile);
+    };
+
+    // run once on mount
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [setIsMobile, setFullScreenPopup]);
 
   // Detect scroll direction and update sectionIndex
   let isScrolling = false;
@@ -36,55 +60,36 @@ export default function SectionContainer() {
       return Math.max(0, Math.min(nextIndex, 5));
     });
   };
-
   useEffect(() => {
+    if (isMobile) return;
+
     window.addEventListener("wheel", handleScroll, { passive: false });
-
     return () => window.removeEventListener("wheel", handleScroll);
-  }, [clickedSection]);
-
-  useEffect(() => {
-    let startY = 0;
-
-    const handleTouchStart = (e: TouchEvent) => {
-      startY = e.touches[0].clientY;
-    };
-
-    const handleTouchEnd = (e: TouchEvent) => {
-      const endY = e.changedTouches[0].clientY;
-      const deltaY = startY - endY;
-
-      if (Math.abs(deltaY) > 30) {
-        setSectionIndex((prevIndex) => {
-          if (deltaY > 0) {
-            return Math.min(prevIndex + 1, 5);
-          } else {
-            return Math.max(prevIndex - 1, 0);
-          }
-        });
-      }
-    };
-
-    window.addEventListener("touchstart", handleTouchStart, { passive: true });
-    window.addEventListener("touchend", handleTouchEnd, { passive: true });
-
-    return () => {
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchend", handleTouchEnd);
-    };
-  }, []);
+  }, [clickedSection, isMobile]);
 
   // Automatically scroll to the updated section
   useEffect(() => {
     const sections = document.getElementsByTagName("section");
     if (sections[sectionIndex]) {
-      sections[sectionIndex].scrollIntoView({ behavior: "smooth" });
+      if (!isMobile) {
+        sections[sectionIndex].scrollIntoView({ behavior: "smooth" });
+      }
       toggleIsClicked("");
     }
   }, [sectionIndex]);
 
   return (
-    <main className="h-screen overflow-hidden scroll-smooth">
+    <main
+      className={clsx(
+        "scroll-smooth",
+        isMobile ? "h-auto overflow-y-scroll" : "h-screen overflow-hidden"
+      )}
+    >
+      {isMobile && (
+        <div className="fixed top-4 left-4 z-50">
+          <MobileMenu />
+        </div>
+      )}
       <section id="home">
         <Home />
       </section>

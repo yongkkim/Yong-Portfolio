@@ -4,25 +4,12 @@ import { motion } from "framer-motion";
 import TypingEffect from "@/components/TypingEffect/TypingEffect";
 import Menu from "@/components/Menu/Menu";
 import { summary } from "@/constants/constants";
-import { useEffect } from "react";
 import MobileMenu from "@/components/MobileMenu/MobileMenu";
 import clsx from "clsx";
 import { useStore } from "@/store/useStore";
 
 export default function ClientHome() {
-  const { setIsMobile, isMobile, setFullScreenPopup } = useStore();
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 425);
-      setFullScreenPopup(window.innerWidth < 768 ? true : false);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, [setIsMobile]);
+  const { isMobile } = useStore();
 
   return (
     <div
@@ -73,14 +60,16 @@ export default function ClientHome() {
           {summary}
         </motion.div>
       </div>
-      <div
-        className={clsx(
-          "h-2/3",
-          "max-md:h-auto max-md:absolute max-md:top-0 max-md:left-0 max-md:right-0 max-md:m-auto"
-        )}
-      >
-        {isMobile ? <MobileMenu /> : <Menu />}
-      </div>
+      {!isMobile && (
+        <div
+          className={clsx(
+            "h-2/3",
+            "max-md:h-auto max-md:absolute max-md:top-0 max-md:left-0 max-md:right-0 max-md:m-auto"
+          )}
+        >
+          <Menu />
+        </div>
+      )}
     </div>
   );
 }

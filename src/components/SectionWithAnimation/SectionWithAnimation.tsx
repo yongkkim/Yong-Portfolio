@@ -16,22 +16,35 @@ export default function SectionWithAnimation({
   video: string;
   children: React.ReactNode;
 }) {
-  const { isVisibleSections, setSectionVisible, isMobile } = useStore();
+  const { isVisibleSections, setSectionVisible, isMobile, setSectionIndex } =
+    useStore();
   const isVisible = isVisibleSections[id];
   const sectionRef = useRef(null);
+  const sectionOrder = [
+    "home",
+    "about",
+    "career",
+    "projects",
+    "skills",
+    "contact",
+  ];
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           const sectionId = entry.target.id;
 
-          // Check if the section has already been marked as visible before
           if (entry.isIntersecting && !isVisibleSections[sectionId]) {
             setSectionVisible(sectionId, true);
           }
+
+          if (entry.isIntersecting) {
+            const index = sectionOrder.indexOf(sectionId);
+            setSectionIndex(() => index);
+          }
         });
       },
-      { threshold: 1 }
+      { threshold: isMobile ? 0.5 : 1 }
     );
 
     if (sectionRef.current) {
@@ -43,7 +56,7 @@ export default function SectionWithAnimation({
         observer.unobserve(sectionRef.current);
       }
     };
-  }, [isVisibleSections, setSectionVisible]);
+  }, [isVisibleSections, setSectionVisible, isMobile]);
 
   return (
     <section ref={sectionRef} id={id}>
@@ -61,13 +74,11 @@ export default function SectionWithAnimation({
         <div className="overlay"></div>
         {isVisible && (
           <>
-            <div className="max-md:h-auto max-md:absolute max-md:top-0 max-md:left-0 max-md:right-0 max-md:m-auto">
-              {isMobile ? (
-                <MobileMenu />
-              ) : (
+            {!isMobile && (
+              <div className="max-md:h-auto max-md:absolute max-md:top-0 max-md:left-0 max-md:right-0 max-md:m-auto">
                 <Menu direction="row" size="50" delay={0} />
-              )}
-            </div>
+              </div>
+            )}
             <div className="absolute top-[100px] left-[100px] max-md:left-0 max-md:right-0 max-md:flex max-md:justify-center">
               <TypingEffect section={id} delay={1500} text={title} speed={70} />
             </div>
