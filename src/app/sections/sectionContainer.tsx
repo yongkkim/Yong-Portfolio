@@ -10,7 +10,6 @@ import Skills from "./skills/page";
 import Contact from "./contact/page";
 import SectionWithAnimation from "@/components/SectionWithAnimation/SectionWithAnimation";
 import clsx from "clsx";
-import Menu from "@/components/Menu/Menu";
 import MobileMenu from "@/components/MobileMenu/MobileMenu";
 
 export default function SectionContainer() {

@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import TypingEffect from "@/components/TypingEffect/TypingEffect";
 import Menu from "@/components/Menu/Menu";
 import { summary } from "@/constants/constants";
-import MobileMenu from "@/components/MobileMenu/MobileMenu";
 import clsx from "clsx";
 import { useStore } from "@/store/useStore";
 
