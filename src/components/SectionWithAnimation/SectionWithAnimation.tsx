@@ -33,11 +33,18 @@ export default function SectionWithAnimation({
         entries.forEach((entry) => {
           const sectionId = entry.target.id;
 
-          // Check if the section has already been marked as visible before
-          if (entry.isIntersecting && !isVisibleSections[sectionId]) {
-            const index = sectionOrder.indexOf(sectionId);
-            setSectionIndex(() => index);
-            setSectionVisible(sectionId, true);
+          if (entry.isIntersecting) {
+            const sections = Array.from(
+              document.querySelectorAll("section")
+            ).map((s) => s.id);
+            const index = sections.indexOf(sectionId);
+            if (index !== -1) {
+              setSectionIndex(() => index);
+            }
+
+            if (!isVisibleSections[sectionId]) {
+              setSectionVisible(sectionId, true);
+            }
           }
         });
       },
