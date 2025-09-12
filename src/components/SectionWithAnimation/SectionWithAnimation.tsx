@@ -19,14 +19,7 @@ export default function SectionWithAnimation({
     useStore();
   const isVisible = isVisibleSections[id];
   const sectionRef = useRef(null);
-  const sectionOrder = [
-    "home",
-    "about",
-    "career",
-    "projects",
-    "skills",
-    "contact",
-  ];
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
