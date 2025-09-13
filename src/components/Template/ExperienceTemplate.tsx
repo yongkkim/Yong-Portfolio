@@ -37,8 +37,8 @@ export default function ExperienceTemplate() {
           "relative z-10 flex",
           "max-[576px]:flex-col",
           !isMobile &&
-            "shadow-[0_8px_8px_0_rgba(0,0,0,0.2),0_8px_20px_0_rgba(0,0,0,0.2)]"
-          // isMobile ? "bg-white/85 backdrop-blur-sm" : "bg-white"
+            "shadow-[0_8px_8px_0_rgba(0,0,0,0.2),0_8px_20px_0_rgba(0,0,0,0.2)]",
+          isMobile ? "bg-white/85 backdrop-blur-sm" : "bg-white"
         )}
       >
         <ul
@@ -72,7 +72,7 @@ export default function ExperienceTemplate() {
         ></div>
         <div
           className={clsx(
-            "scrollable p-4 m-2 text-[12px] max-h-[350px] bg-white overflow-y-auto",
+            "scrollable p-4 m-2 text-[12px] max-h-[350px] overflow-y-auto",
             "max-[576px]:max-h-[250px]"
           )}
         >
