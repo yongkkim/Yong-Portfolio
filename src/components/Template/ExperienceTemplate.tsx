@@ -37,13 +37,13 @@ export default function ExperienceTemplate() {
           "relative z-10 flex",
           "max-[576px]:flex-col",
           !isMobile &&
-            "shadow-[0_8px_8px_0_rgba(0,0,0,0.2),0_8px_20px_0_rgba(0,0,0,0.2)]",
-          isMobile ? "bg-white/85 backdrop-blur-sm" : "bg-white"
+            "shadow-[0_8px_8px_0_rgba(0,0,0,0.2),0_8px_20px_0_rgba(0,0,0,0.2)]"
+          // isMobile ? "bg-white/85 backdrop-blur-sm" : "bg-white"
         )}
       >
         <ul
           className={clsx(
-            "flex flex-1 flex-col items-center p-4 m-2 min-w-[240px] bg-white"
+            "flex flex-1 flex-col items-center p-4 m-2 min-w-[240px]"
           )}
         >
           <li>
