@@ -43,7 +43,8 @@ export default function ExperienceTemplate() {
       >
         <ul
           className={clsx(
-            "flex flex-1 flex-col items-center p-4 m-2 min-w-[240px] bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.2),0_2px_8px_0_rgba(0,0,0,0.2)]"
+            "flex flex-1 flex-col items-center p-4 m-2 min-w-[240px] shadow-[0_1px_2px_0_rgba(0,0,0,0.2),0_2px_8px_0_rgba(0,0,0,0.2)]",
+            isMobile ? "bg-white/80" : "bg-white"
           )}
         >
           <li>
@@ -72,8 +73,9 @@ export default function ExperienceTemplate() {
         ></div>
         <div
           className={clsx(
-            "scrollable p-4 m-2 text-[12px] max-h-[350px] bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.2),0_2px_8px_0_rgba(0,0,0,0.2)] overflow-y-auto",
-            "max-[576px]:max-h-[250px]"
+            "scrollable p-4 m-2 text-[12px] max-h-[350px] shadow-[0_1px_2px_0_rgba(0,0,0,0.2),0_2px_8px_0_rgba(0,0,0,0.2)] overflow-y-auto",
+            "max-[576px]:max-h-[250px]",
+            isMobile ? "bg-white/80" : "bg-white"
           )}
         >
           {selectedContent.description.map((desc, index) => (
