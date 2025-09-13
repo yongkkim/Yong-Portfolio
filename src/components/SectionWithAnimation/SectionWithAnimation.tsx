@@ -26,6 +26,15 @@ export default function SectionWithAnimation({
         entries.forEach((entry) => {
           const sectionId = entry.target.id;
 
+          if (
+            id === "about" &&
+            !entry.isIntersecting &&
+            entry.boundingClientRect.top > 0
+          ) {
+            setSectionIndex(() => 0);
+            return;
+          }
+
           if (entry.isIntersecting) {
             const sections = Array.from(
               document.querySelectorAll("section")
