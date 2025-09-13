@@ -37,7 +37,7 @@ export default function ExperienceTemplate() {
     >
       <div
         className={clsx(
-          "flex bg-white",
+          "relative z-10 flex bg-white",
           "max-[576px]:flex-col",
           !isMobile &&
             "shadow-[0_8px_8px_0_rgba(0,0,0,0.2),0_8px_20px_0_rgba(0,0,0,0.2)]"
@@ -45,7 +45,7 @@ export default function ExperienceTemplate() {
       >
         <ul
           className={clsx(
-            "relative z-10 flex flex-1 flex-col items-center p-4 m-2 min-w-[240px] bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.2),0_2px_8px_0_rgba(0,0,0,0.2)]"
+            "flex flex-1 flex-col items-center p-4 m-2 min-w-[240px] bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.2),0_2px_8px_0_rgba(0,0,0,0.2)]"
           )}
         >
           <li>
@@ -74,7 +74,7 @@ export default function ExperienceTemplate() {
         ></div>
         <div
           className={clsx(
-            "relative z-10 scrollable p-4 m-2 text-[12px] max-h-[350px] bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.2),0_2px_8px_0_rgba(0,0,0,0.2)] overflow-y-auto",
+            "scrollable p-4 m-2 text-[12px] max-h-[350px] bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.2),0_2px_8px_0_rgba(0,0,0,0.2)] overflow-y-auto",
             "max-[576px]:max-h-[250px]"
           )}
         >
