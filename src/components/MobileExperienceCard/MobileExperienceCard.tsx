@@ -21,7 +21,7 @@ export default function MobileExperienceCard() {
   return (
     <div
       className={clsx(
-        "flex items-center justify-center w-[80%] mt-[30%] overflow-hidden"
+        "flex items-center justify-center w-[80%] mt-[40%] overflow-hidden"
       )}
     >
       <div className={clsx("flex flex-col gap-4 h-full")}>

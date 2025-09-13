@@ -18,13 +18,10 @@ export default function ExperienceTemplate() {
   };
 
   const getDarkerGradient = () => {
-    if (isMobile) return;
     if (!selectedContent?.bgColor) return "rgb(0,0,0)";
 
-    // slightly darken the "from"
     const fromColor = darkenColor(selectedContent.bgColor, 0.3);
 
-    // heavily darken the "to"
     const toColor = darkenColor(selectedContent.bgColor, 0.6);
 
     return `linear-gradient(to right, ${fromColor}, ${toColor})`;
@@ -32,15 +29,16 @@ export default function ExperienceTemplate() {
 
   return (
     <div
-      className={clsx("flex px-6 rounded-[20px]", !isMobile && "p-6")}
+      className={clsx("flex p-6 rounded-[20px]")}
       style={{ background: getDarkerGradient() }}
     >
       <div
         className={clsx(
-          "relative z-10 flex bg-white",
+          "relative z-10 flex",
           "max-[576px]:flex-col",
           !isMobile &&
-            "shadow-[0_8px_8px_0_rgba(0,0,0,0.2),0_8px_20px_0_rgba(0,0,0,0.2)]"
+            "shadow-[0_8px_8px_0_rgba(0,0,0,0.2),0_8px_20px_0_rgba(0,0,0,0.2)]",
+          isMobile ? "bg-white/85 backdrop-blur-sm" : "bg-white"
         )}
       >
         <ul
