@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useStore } from "@/store/useStore";
 
 export default function ExperienceTemplate() {
-  const { selectedContent } = useStore();
+  const { selectedContent, isMobile } = useStore();
 
   const darkenColor = (rgbString: string, factor: number) => {
     const rgb = rgbString.match(/\d+/g);
@@ -18,6 +18,7 @@ export default function ExperienceTemplate() {
   };
 
   const getDarkerGradient = () => {
+    if (isMobile) return;
     if (!selectedContent?.bgColor) return "rgb(0,0,0)";
 
     // slightly darken the "from"
@@ -31,13 +32,15 @@ export default function ExperienceTemplate() {
 
   return (
     <div
-      className="flex p-6 rounded-[20px]"
+      className={clsx("flex px-6 rounded-[20px]", !isMobile && "p-6")}
       style={{ background: getDarkerGradient() }}
     >
       <div
         className={clsx(
-          "flex bg-white shadow-[0_8px_8px_0_rgba(0,0,0,0.2),0_8px_20px_0_rgba(0,0,0,0.2)]",
-          "max-[576px]:flex-col"
+          "flex bg-white",
+          "max-[576px]:flex-col",
+          !isMobile &&
+            "shadow-[0_8px_8px_0_rgba(0,0,0,0.2),0_8px_20px_0_rgba(0,0,0,0.2)]"
         )}
       >
         <ul
@@ -82,7 +85,7 @@ export default function ExperienceTemplate() {
             >
               <p
                 className={clsx(
-                  "m-[10px] mr-0 z-[-1] text-shadow-lg",
+                  "m-[10px] mr-0 text-shadow-lg",
                   index === 0 && "mt-0"
                 )}
               >
