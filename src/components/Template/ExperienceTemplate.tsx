@@ -43,7 +43,7 @@ export default function ExperienceTemplate() {
       >
         <ul
           className={clsx(
-            "flex flex-1 flex-col items-center p-4 m-2 min-w-[240px]"
+            "flex flex-1 flex-col items-center p-4 m-2 min-w-[240px] bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.2),0_2px_8px_0_rgba(0,0,0,0.2)]"
           )}
         >
           <li>
@@ -54,15 +54,15 @@ export default function ExperienceTemplate() {
           </li>
           <li
             className={clsx(
-              "flex mb-[10px] mt-[10px] font-bold text-center text-[15px]"
+              "flex mb-[10px] mt-[10px] text-black font-bold text-center text-[15px]"
             )}
           >
             {selectedContent.company}
           </li>
-          <li className="flex mb-[10px] text-[13px]">
+          <li className="flex mb-[10px] text-black text-[13px]">
             {selectedContent.position}
           </li>
-          <li className="text-[13px]">{selectedContent.duration}</li>
+          <li className="text-black text-[13px]">{selectedContent.duration}</li>
         </ul>
         <div
           className={clsx(
@@ -72,7 +72,7 @@ export default function ExperienceTemplate() {
         ></div>
         <div
           className={clsx(
-            "scrollable p-4 m-2 text-[12px] max-h-[350px] overflow-y-auto",
+            "scrollable p-4 m-2 text-[12px] max-h-[350px] bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.2),0_2px_8px_0_rgba(0,0,0,0.2)] overflow-y-auto",
             "max-[576px]:max-h-[250px]"
           )}
         >
@@ -83,7 +83,7 @@ export default function ExperienceTemplate() {
             >
               <p
                 className={clsx(
-                  "m-[10px] mr-0 text-shadow-lg",
+                  "m-[10px] mr-0 text-shadow-lg text-black",
                   index === 0 && "mt-0"
                 )}
               >
