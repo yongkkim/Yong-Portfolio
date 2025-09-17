@@ -21,6 +21,7 @@ export default function SectionContainer() {
     setIsMobile,
     setFullScreenPopup,
     isMobile,
+    setIsTrackingFrozen,
   } = useStore();
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export default function SectionContainer() {
 
     setTimeout(() => {
       isScrolling = false;
-    }, 700); // Prevents rapid scrolling
+    }, 700);
 
     setSectionIndex((prevIndex) => {
       const nextIndex = event.deltaY > 0 ? prevIndex + 1 : prevIndex - 1;
@@ -60,7 +61,12 @@ export default function SectionContainer() {
     });
   };
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile) {
+      const section = document.getElementById(clickedSection);
+      section?.scrollIntoView({ behavior: "smooth", block: "start" });
+      document.body.style.overflow = clickedSection ? "hidden" : "auto";
+      setIsTrackingFrozen(!!clickedSection);
+    }
 
     window.addEventListener("wheel", handleScroll, { passive: false });
     return () => window.removeEventListener("wheel", handleScroll);

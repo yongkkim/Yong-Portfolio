@@ -15,8 +15,13 @@ export default function SectionWithAnimation({
   video: string;
   children: React.ReactNode;
 }) {
-  const { isVisibleSections, setSectionVisible, isMobile, setSectionIndex } =
-    useStore();
+  const {
+    isVisibleSections,
+    setSectionVisible,
+    isMobile,
+    setSectionIndex,
+    isTrackingFrozen,
+  } = useStore();
   const isVisible = isVisibleSections[id];
   const sectionRef = useRef(null);
 
@@ -35,7 +40,7 @@ export default function SectionWithAnimation({
             return;
           }
 
-          if (entry.isIntersecting) {
+          if (!isTrackingFrozen && entry.isIntersecting) {
             const sections = Array.from(
               document.querySelectorAll("section")
             ).map((s) => s.id);
@@ -62,7 +67,7 @@ export default function SectionWithAnimation({
         observer.unobserve(sectionRef.current);
       }
     };
-  }, [isVisibleSections, setSectionVisible, isMobile]);
+  }, [isVisibleSections, setSectionVisible, isMobile, isTrackingFrozen]);
 
   return (
     <section ref={sectionRef} id={id}>

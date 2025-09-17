@@ -14,6 +14,17 @@ interface LineProperties {
   translateX: number;
 }
 
+interface LineSegmentsProp {
+  type: string;
+  length: number;
+  x: number;
+  y: number;
+  angle: number;
+  isHoverable?: boolean;
+  about: number;
+  isClicked?: boolean;
+}
+
 export default function ClientAbout() {
   const {
     clickedSection,
@@ -21,12 +32,17 @@ export default function ClientAbout() {
     toggleIsClicked,
     popupContent,
     fullScreenPopup,
+    isMobile,
   } = useStore();
 
   const [lineProperties, setLineProperties] = useState<LineProperties>({
     scale: 1,
     translateX: -25,
   });
+
+  const handleClick = (index: number, line: LineSegmentsProp) => {
+    toggleIsClicked("about", aboutInto[line.about - 1].text, index);
+  };
 
   useEffect(() => {
     const updateScale = () => {
@@ -92,13 +108,7 @@ export default function ClientAbout() {
               <CircleButton
                 label={aboutInto[line.about - 1].label}
                 isClicked={clickedIndex === index}
-                handleClick={() =>
-                  toggleIsClicked(
-                    "about",
-                    aboutInto[line.about - 1].text,
-                    index
-                  )
-                }
+                handleClick={() => handleClick(index, line)}
               />
             )}
           </motion.div>

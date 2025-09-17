@@ -15,7 +15,7 @@ interface expObject {
 }
 
 export default function ExperienceCard() {
-  const { toggleIsClicked, setSelectedContent } = useStore();
+  const { toggleIsClicked, setSelectedContent, isMobile } = useStore();
   const [experience, updateExperience] =
     useState<Array<expObject>>(experienceData);
   const [isHovered, setIsHovered] = useState<boolean>(false);

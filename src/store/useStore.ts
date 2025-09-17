@@ -21,6 +21,7 @@ interface StoreState {
   fullScreenPopup: boolean;
   popupHeight: number;
   selectedContent: contentObject;
+  isTrackingFrozen: boolean;
   setFullScreenPopup: (fullScreen: boolean) => void;
   setPopupHeight: (width: number) => void;
   toggleIsClicked: (
@@ -33,6 +34,7 @@ interface StoreState {
   setIsMobileMenuOpen: (isOpen: boolean) => void;
   setIsMobile: (mobile: boolean) => void;
   setSelectedContent: (content: contentObject) => void;
+  setIsTrackingFrozen: (isFrozen: boolean) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
@@ -46,6 +48,7 @@ export const useStore = create<StoreState>((set) => ({
   fullScreenPopup: false,
   popupHeight: 0,
   selectedContent: {} as contentObject,
+  isTrackingFrozen: false,
 
   setFullScreenPopup: (fullScreen) => set({ fullScreenPopup: fullScreen }),
   setPopupHeight: (width) => set({ popupHeight: width }),
@@ -69,4 +72,5 @@ export const useStore = create<StoreState>((set) => ({
     }),
   setIsMobile: (value) => set({ isMobile: value }),
   setSelectedContent: (content) => set({ selectedContent: content }),
+  setIsTrackingFrozen: (isFrozen) => set({ isTrackingFrozen: isFrozen }),
 }));
