@@ -80,7 +80,9 @@ export default function SectionContainer() {
       if (!isMobile) {
         sections[sectionIndex].scrollIntoView({ behavior: "smooth" });
       }
-      !isTrackingFrozen && toggleIsClicked("");
+      if (!isTrackingFrozen) {
+        toggleIsClicked("");
+      }
     }
   }, [sectionIndex]);
 
