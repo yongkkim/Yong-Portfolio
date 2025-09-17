@@ -32,7 +32,6 @@ export default function ClientAbout() {
     toggleIsClicked,
     popupContent,
     fullScreenPopup,
-    isMobile,
   } = useStore();
 
   const [lineProperties, setLineProperties] = useState<LineProperties>({

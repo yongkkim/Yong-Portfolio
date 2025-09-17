@@ -21,7 +21,7 @@ interface contentObject {
 }
 
 export default function ClientProject() {
-  const { setSelectedContent, isMobile } = useStore();
+  const { setSelectedContent } = useStore();
 
   const { toggleIsClicked, clickedSection } = useStore();
   const [hoveredIndex, setHoveredIndex] = useState<number>(-1);

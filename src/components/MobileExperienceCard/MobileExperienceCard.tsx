@@ -11,7 +11,7 @@ interface expObject {
 }
 
 export default function MobileExperienceCard() {
-  const { toggleIsClicked, setSelectedContent, isMobile } = useStore();
+  const { toggleIsClicked, setSelectedContent } = useStore();
 
   const handleClick = (exp: expObject) => {
     toggleIsClicked("career");
