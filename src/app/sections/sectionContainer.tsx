@@ -22,6 +22,7 @@ export default function SectionContainer() {
     setFullScreenPopup,
     isMobile,
     setIsTrackingFrozen,
+    isTrackingFrozen,
   } = useStore();
 
   useEffect(() => {
@@ -79,7 +80,7 @@ export default function SectionContainer() {
       if (!isMobile) {
         sections[sectionIndex].scrollIntoView({ behavior: "smooth" });
       }
-      toggleIsClicked("");
+      !isTrackingFrozen && toggleIsClicked("");
     }
   }, [sectionIndex]);
 
