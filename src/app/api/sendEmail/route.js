@@ -23,9 +23,11 @@ export const POST = async (req) => {
 
     return new Response(JSON.stringify({ success: true }), { status: 200 });
   } catch (error) {
-    console.log("Email hasn't been sent", error);
     return new Response(
-      JSON.stringify({ success: false, error: String(error) }),
+      JSON.stringify({
+        success: false,
+        error: error?.message || error?.toString?.() || "Unknown error",
+      }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
