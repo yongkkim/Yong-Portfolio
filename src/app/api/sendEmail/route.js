@@ -7,10 +7,18 @@ export const POST = async (req) => {
     const { name, email, message } = await req.json();
 
     await resend.emails.send({
-      from: "onboarding@resend.dev",
+      from: "ykukkim6@gmail.com",
       to: "ykkim6@hotmail.com",
       subject: `New message from ${name}`,
-      text: `${message}, Reply to ${email}`,
+      text: `Message from ${name} (${email}):\n\n${message}`,
+      html: `
+    <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333;">
+      <h2>New Message from ${name}</h2>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Message:</strong></p>
+      <p>${message.replace(/\n/g, "<br>")}</p>
+    </div>
+  `,
     });
 
     return Response.json({ success: true });
