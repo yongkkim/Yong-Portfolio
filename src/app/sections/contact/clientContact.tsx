@@ -198,11 +198,14 @@ export default function ClientContact() {
       body: JSON.stringify(data),
     });
 
-    if (res.ok) {
-      setTimeout(() => setIsEmailSent(true), 1500);
-      console.log("Email has been sent");
-      setFormData({ name: "", email: "", message: "" });
+    if (!res.ok) {
+      console.error("Failed to send email:", await res.text());
+      setIsSubmitted(false);
+      return;
     }
+
+    setTimeout(() => setIsEmailSent(true), 1500);
+    setFormData({ name: "", email: "", message: "" });
   };
 
   return (
@@ -321,7 +324,7 @@ export default function ClientContact() {
             </div>
             <div className="relative w-full">
               <textarea
-                className="mb-[7px] p-[5px] rounded-[5px] h-[100px] w-full"
+                className="mb-[7px] p-[5px] rounded-[5px] h-[100px] w-full text-black"
                 placeholder="Message"
                 name="message"
                 value={formData.message}

@@ -131,7 +131,7 @@ export default function SectionContainer() {
       </SectionWithAnimation>
       <SectionWithAnimation
         id="contact"
-        title="LET'S CHAT: WORK ON THINGS TOGETHER!"
+        title="LET'S CHAT: WORK TOGETHER!"
         video="/contact.mp4"
       >
         <Contact />
