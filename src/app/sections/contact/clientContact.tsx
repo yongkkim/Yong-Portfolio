@@ -152,12 +152,12 @@ export default function ClientContact() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Sanitize inputs first
+    // Sanitize inputs
     const sanitizedName = DOMPurify.sanitize(formData.name);
     const sanitizedEmail = DOMPurify.sanitize(formData.email);
     const sanitizedMessage = DOMPurify.sanitize(formData.message);
 
-    // Run validation on sanitized values
+    // Validate
     const nameError = validateFormData("name", sanitizedName);
     const emailError = validateFormData("email", sanitizedEmail);
     const messageError = validateFormData("message", sanitizedMessage);
@@ -174,40 +174,41 @@ export default function ClientContact() {
         email: sanitizedEmail,
         message: sanitizedMessage,
       });
-
       return;
     }
 
     setIsSubmitted(true);
+    setIsEmailSent(false);
 
-    if (isEmailSent) {
-      setIsEmailSent(false);
-    }
+    try {
+      const res = await fetch("/api/sendEmail", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: sanitizedName,
+          email: sanitizedEmail,
+          message: sanitizedMessage,
+        }),
+      });
 
-    // Prepare data
-    const data = {
-      name: sanitizedName,
-      email: sanitizedEmail,
-      message: sanitizedMessage,
-    };
+      const data = await res.json();
 
-    // Post request
-    const res = await fetch("/api/sendEmail", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+      if (!res.ok) {
+        console.error("Email API error:", data);
+        alert(`Failed to send email: ${data.error || "Unknown error"}`);
+        setIsSubmitted(false);
+        return;
+      }
 
-    if (!res.ok) {
-      console.error("Failed to send email:", await res.text());
+      setTimeout(() => setIsEmailSent(true), 500);
+      setFormData({ name: "", email: "", message: "" });
+      console.log("Email sent successfully!", data);
+    } catch (err) {
+      console.error("Network or unexpected error:", err);
+      alert(`Failed to send email: ${err}`);
       setIsSubmitted(false);
-      return;
     }
-
-    setTimeout(() => setIsEmailSent(true), 1500);
-    setFormData({ name: "", email: "", message: "" });
   };
-
   return (
     <EmergingEffect delay={1}>
       <div
