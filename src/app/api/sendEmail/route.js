@@ -23,10 +23,25 @@ export const POST = async (req) => {
 
     return new Response(JSON.stringify({ success: true }), { status: 200 });
   } catch (error) {
+    console.error("Email hasn't been sent:", error);
+
+    // Resend errors sometimes have nested info (error.message, error.name, error.response, etc.)
+    let details = {};
+
+    if (error?.response) {
+      try {
+        const body = await error.response.json();
+        details = body;
+      } catch {
+        details = { responseText: await error.response.text?.() };
+      }
+    }
+
     return new Response(
       JSON.stringify({
         success: false,
-        error: error?.message || error?.toString?.() || "Unknown error",
+        error: error?.message || error?.toString?.(),
+        details,
       }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
