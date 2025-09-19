@@ -152,12 +152,11 @@ export default function ClientContact() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Sanitize inputs
+    // Sanitize and validate inputs
     const sanitizedName = DOMPurify.sanitize(formData.name);
     const sanitizedEmail = DOMPurify.sanitize(formData.email);
     const sanitizedMessage = DOMPurify.sanitize(formData.message);
 
-    // Validate
     const nameError = validateFormData("name", sanitizedName);
     const emailError = validateFormData("email", sanitizedEmail);
     const messageError = validateFormData("message", sanitizedMessage);
@@ -191,10 +190,20 @@ export default function ClientContact() {
         }),
       });
 
-      const data = await res.json();
+      // Read raw response
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text); // Try parsing JSON
+      } catch {
+        console.error("API returned non-JSON response:", text);
+        alert("Failed to send email: see console for details.");
+        setIsSubmitted(false);
+        return;
+      }
 
       if (!res.ok) {
-        console.error("Email API error:", data);
+        console.error("API error response:", data);
         alert(`Failed to send email: ${data.error || "Unknown error"}`);
         setIsSubmitted(false);
         return;
@@ -209,6 +218,7 @@ export default function ClientContact() {
       setIsSubmitted(false);
     }
   };
+
   return (
     <EmergingEffect delay={1}>
       <div
