@@ -1,32 +1,40 @@
 import { Resend } from "resend";
-// import EmailTemplate from "@/components/EmailTemplate/EmailTemplate";
+import EmailTemplate from "@/components/EmailTemplate/EmailTemplate";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export const POST = async (req: Request) => {
+export async function POST(req: Request) {
   try {
     const { name, email, message } = await req.json();
 
-    await resend.emails.send({
-      from: "contact@yongkukkim.com", // verified domain email
+    if (!process.env.RESEND_API_KEY) {
+      console.error("Missing RESEND_API_KEY in environment");
+      return Response.json(
+        { success: false, error: "API key missing" },
+        { status: 500 }
+      );
+    }
+
+    // Send email via Resend using React component
+    const { data, error } = await resend.emails.send({
+      from: "contact@yongkukkim.com",
       to: "ykkim6@hotmail.com",
       subject: `New message from ${name}`,
       text: `Message from ${name} (${email}):\n\n${message}`,
-      // react field will come later
+      react: EmailTemplate({ name, email, message }),
     });
 
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
-  } catch (error) {
-    console.error("FULL ERROR OBJECT:", error);
-    if (error instanceof Error) {
-      console.error(error.stack);
+    if (error) {
+      console.error("Resend error:", error);
+      return Response.json({ success: false, error }, { status: 500 });
     }
-    return new Response(
-      JSON.stringify({
-        success: false,
-        error: error instanceof Error ? error.message : error,
-      }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+
+    return Response.json({ success: true, data });
+  } catch (err: any) {
+    console.error("API route crashed:", err);
+    return Response.json(
+      { success: false, error: err.message ?? "Unknown error" },
+      { status: 500 }
     );
   }
-};
+}

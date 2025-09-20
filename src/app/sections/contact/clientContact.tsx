@@ -205,7 +205,7 @@ export default function ClientContact() {
       result = { success: false, error: "Server returned non-JSON response" };
     }
     if (!res.ok) {
-      console.log("Failed to send email:", result);
+      console.error("Failed to send email:", result);
       setIsSubmitted(false);
       return;
     }
