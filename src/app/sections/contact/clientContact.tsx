@@ -152,11 +152,12 @@ export default function ClientContact() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Sanitize and validate inputs
+    // Sanitize inputs first
     const sanitizedName = DOMPurify.sanitize(formData.name);
     const sanitizedEmail = DOMPurify.sanitize(formData.email);
     const sanitizedMessage = DOMPurify.sanitize(formData.message);
 
+    // Run validation on sanitized values
     const nameError = validateFormData("name", sanitizedName);
     const emailError = validateFormData("email", sanitizedEmail);
     const messageError = validateFormData("message", sanitizedMessage);
@@ -173,50 +174,38 @@ export default function ClientContact() {
         email: sanitizedEmail,
         message: sanitizedMessage,
       });
+
       return;
     }
 
     setIsSubmitted(true);
-    setIsEmailSent(false);
 
-    try {
-      const res = await fetch("/api/sendEmail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: sanitizedName,
-          email: sanitizedEmail,
-          message: sanitizedMessage,
-        }),
-      });
-
-      // Read raw response
-      const text = await res.text();
-      let data;
-      try {
-        data = JSON.parse(text); // Try parsing JSON
-      } catch {
-        console.error("API returned non-JSON response:", text);
-        alert("Failed to send email: see console for details.");
-        setIsSubmitted(false);
-        return;
-      }
-
-      if (!res.ok) {
-        console.error("API error response:", data);
-        alert(`Failed to send email: ${data.error || "Unknown error"}`);
-        setIsSubmitted(false);
-        return;
-      }
-
-      setTimeout(() => setIsEmailSent(true), 500);
-      setFormData({ name: "", email: "", message: "" });
-      console.log("Email sent successfully!", data);
-    } catch (err) {
-      console.error("Network or unexpected error:", err);
-      alert(`Failed to send email: ${err}`);
-      setIsSubmitted(false);
+    if (isEmailSent) {
+      setIsEmailSent(false);
     }
+
+    // Prepare data
+    const data = {
+      name: sanitizedName,
+      email: sanitizedEmail,
+      message: sanitizedMessage,
+    };
+
+    // Post request
+    const res = await fetch("/api/sendEmail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      console.error("Failed to send email:", await res.text());
+      setIsSubmitted(false);
+      return;
+    }
+
+    setTimeout(() => setIsEmailSent(true), 1500);
+    setFormData({ name: "", email: "", message: "" });
   };
 
   return (
