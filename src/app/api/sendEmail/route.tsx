@@ -30,11 +30,17 @@ export async function POST(req: Request) {
     }
 
     return Response.json({ success: true, data });
-  } catch (err: any) {
-    console.error("API route crashed:", err);
-    return Response.json(
-      { success: false, error: err.message ?? "Unknown error" },
-      { status: 500 }
-    );
+  } catch (err: unknown) {
+    console.error("Email sending failed:", err);
+
+    let message = "Unknown server error";
+
+    if (err instanceof Error) {
+      message = err.message;
+    } else if (typeof err === "string") {
+      message = err;
+    }
+
+    return Response.json({ success: false, error: message }, { status: 500 });
   }
 }
