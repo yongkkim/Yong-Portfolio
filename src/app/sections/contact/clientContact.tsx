@@ -11,6 +11,7 @@ import Tooltip from "@/components/Tooltip/Tooltip";
 import DOMPurify from "dompurify";
 
 export default function ClientContact() {
+  console.log("RESEND_API_KEY exists:", !!process.env.RESEND_API_KEY);
   const [contactType, setContactType] = useState("");
   const [isCopied, setIsCopied] = useState(false);
   const [isEmailSent, setIsEmailSent] = useState(false);
