@@ -198,8 +198,14 @@ export default function ClientContact() {
       body: JSON.stringify(data),
     });
 
+    let result;
+    try {
+      result = await res.json();
+    } catch {
+      result = { success: false, error: "Server returned non-JSON response" };
+    }
     if (!res.ok) {
-      console.error("Failed to send email:", await res.text());
+      console.error("Failed to send email:", result);
       setIsSubmitted(false);
       return;
     }

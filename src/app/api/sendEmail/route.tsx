@@ -3,28 +3,30 @@ import EmailTemplate from "@/components/EmailTemplate/EmailTemplate";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function POST(req: Request) {
+export const POST = async (req: Request) => {
   try {
     const { name, email, message } = await req.json();
 
-    // Send email via Resend using React component
-    const { data, error } = await resend.emails.send({
-      from: "contact@yongkukkim.com",
-      to: ["ykkim6@hotmail.com"],
+    await resend.emails.send({
+      from: "contact@yongkukkim.com", // verified domain email
+      to: "ykkim6@hotmail.com",
       subject: `New message from ${name}`,
       text: `Message from ${name} (${email}):\n\n${message}`,
-      react: EmailTemplate({ name, email, message }),
+      // react field will come later
     });
 
-    if (error) {
-      return Response.json({ success: false, error }, { status: 500 });
-    }
-
-    return Response.json({ success: true, data });
+    return new Response(JSON.stringify({ success: true }), { status: 200 });
   } catch (error) {
-    return Response.json(
-      { success: false, error: String(error) },
-      { status: 500 }
+    console.error("FULL ERROR OBJECT:", error);
+    if (error instanceof Error) {
+      console.error(error.stack);
+    }
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: error instanceof Error ? error.message : error,
+      }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
-}
+};
