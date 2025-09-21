@@ -3,7 +3,7 @@
 
 // const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function POST(req: Request) {
+export async function POST() {
   console.log("sendEmail API hit!");
   return Response.json({ ok: true });
   // try {
