@@ -17,7 +17,7 @@ export default function ClientSkills() {
       {Object.entries(skills).map(([skillType, skillList], areaIndex) => (
         <div className="flex flex-col items-start" key={skillType}>
           <EmergingEffect delay={4 + areaIndex * 0.5} align="start">
-            <span className="text-white tracking-[-1px] text-3xl max-xl:text-2xl stroke-text-lg mb-[10px] mr-[10px]">
+            <span className="text-white tracking-[-1px] text-3xl max-xl:text-2xl stroke-text-md mb-[10px] mr-[10px]">
               {skillAreas[areaIndex]}
             </span>
           </EmergingEffect>

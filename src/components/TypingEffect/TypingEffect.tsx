@@ -57,9 +57,12 @@ export default function TypingEffect({
       (!title || body) &&
       (section === "skills" || section == "projects")
     ) {
-      const cursorFadeOut = setTimeout(() => {
-        setIsCursorVisible(false);
-      }, delay + (section === "skills" ? 1500 : 3200));
+      const cursorFadeOut = setTimeout(
+        () => {
+          setIsCursorVisible(false);
+        },
+        delay + (section === "skills" ? 1500 : 3200)
+      );
       return () => clearTimeout(cursorFadeOut);
     }
   }, [isCursorVisible]);
@@ -75,7 +78,8 @@ export default function TypingEffect({
         className={clsx(
           "text-white tracking-[-1px]",
           section === "home" && "stroke-text-md",
-          "max-md:text-2xl stroke-text-sm",
+          "max-md:text-2xl",
+          section === "skills" && body ? "text-[#e5fce5]" : "stroke-text-sm",
           (section === "projects" || section === "skills") && body
             ? "md:text-lg max-md:text-base"
             : "text-3xl max-[475px]:text-xl"
