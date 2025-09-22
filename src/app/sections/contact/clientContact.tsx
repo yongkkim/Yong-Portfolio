@@ -185,14 +185,12 @@ export default function ClientContact() {
       setIsEmailSent(false);
     }
 
-    // Prepare data
     const data = {
       name: sanitizedName,
       email: sanitizedEmail,
       message: sanitizedMessage,
     };
 
-    // Post request
     const res = await fetch("/api/sendEmail", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
