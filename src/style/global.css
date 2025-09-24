@@ -14,6 +14,16 @@
   }
 }
 
+@media screen and (max-width: 812px) and (orientation: landscape) {
+  .mobile-landscape-overlay {
+    display: flex !important;
+  }
+
+  .mobile-landscape-content {
+    display: none !important;
+  }
+}
+
 body {
   color: var(--foreground);
   background: var(--background);

@@ -14,16 +14,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body className={`${jetBrainsMono.variable} antialiased bg-black`}>
-        {children}
+        <div className="mobile-landscape-content block">{children}</div>
 
-        <div className="hidden max-[768px]:landscape:flex fixed inset-0 items-center justify-center bg-white z-50">
-          <p className="text-lg text-gray-700 text-center px-6">
+        <div className="mobile-landscape-overlay hidden fixed inset-0 items-center justify-center bg-white z-50">
+          <p className="text-lg font-semibold text-gray-700 text-center px-6">
             Currently optimizing the UI for landscape mode. Please rotate your
             device back to portrait orientation for the best experience.
           </p>
