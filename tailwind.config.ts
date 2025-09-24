@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import type { PluginAPI } from "tailwindcss/types/config";
 
 export default {
   content: [
@@ -14,5 +15,10 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addVariant }: PluginAPI) {
+      addVariant("portrait", "@media (orientation: portrait)");
+      addVariant("landscape", "@media (orientation: landscape)");
+    },
+  ],
 } satisfies Config;

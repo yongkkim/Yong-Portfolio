@@ -21,6 +21,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${jetBrainsMono.variable} antialiased bg-black`}>
         {children}
+
+        <div className="hidden max-[768px]:landscape:flex fixed inset-0 items-center justify-center bg-white z-50">
+          <p className="text-lg text-gray-700 text-center px-6">
+            Currently optimizing the UI for landscape mode. Please rotate your
+            device back to portrait orientation for the best experience.
+          </p>
+        </div>
       </body>
     </html>
   );

@@ -62,7 +62,7 @@ export default function ClientHome() {
       {!isMobile && (
         <div
           className={clsx(
-            "h-2/3",
+            "h-fit",
             "max-md:h-auto max-md:absolute max-md:top-0 max-md:left-0 max-md:right-0 max-md:m-auto"
           )}
         >

@@ -21,20 +21,34 @@ body {
 }
 
 .stroke-text-sm {
-  text-shadow: -1px 0 #008f11, 0 1px #008f11, 1px 0 #008f11, 0 -1px #008f11;
+  text-shadow:
+    -1px 0 #008f11,
+    0 1px #008f11,
+    1px 0 #008f11,
+    0 -1px #008f11;
 }
 
 .stroke-text-md {
-  text-shadow: -2px 0 #008f11, 0 2px #008f11, 2px 0 #008f11, 0 -2px #008f11;
+  text-shadow:
+    -2px 0 #008f11,
+    0 2px #008f11,
+    2px 0 #008f11,
+    0 -2px #008f11;
 }
 
 .stroke-text-lg {
-  text-shadow: -3px 0 #008f11, 0 3px #008f11, 3px 0 #008f11, 0 -3px #008f11;
+  text-shadow:
+    -3px 0 #008f11,
+    0 3px #008f11,
+    3px 0 #008f11,
+    0 -3px #008f11;
 }
 
 .box-shadow {
-  box-shadow: -1px 0 2px rgba(37, 181, 114, 0.6),
-    0 1px 2px rgba(37, 181, 114, 0.6), 1px 0 2px rgba(37, 181, 114, 0.6),
+  box-shadow:
+    -1px 0 2px rgba(37, 181, 114, 0.6),
+    0 1px 2px rgba(37, 181, 114, 0.6),
+    1px 0 2px rgba(37, 181, 114, 0.6),
     0 -1px 2px rgba(37, 181, 114, 0.6);
 }
 
@@ -66,7 +80,11 @@ body {
 
 @layer utilities {
   .text-shadow-green {
-    text-shadow: -1px 0 #008f11, 0 1px #008f11, 1px 0 #008f11, 0 -1px #008f11;
+    text-shadow:
+      -1px 0 #008f11,
+      0 1px #008f11,
+      1px 0 #008f11,
+      0 -1px #008f11;
   }
   .overlay {
     @apply absolute z-[-1] left-0 right-0 w-full h-full object-cover bg-gradient-to-r from-[rgba(0,84,62,0)] to-[rgba(0,177,30,0.15)];
