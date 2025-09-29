@@ -91,18 +91,6 @@ export const lineSegments = [
 
 export const experience = [
   {
-    company: "Onword",
-    position: "Full Stack Developer",
-    duration: "08/2020 - 12/2021",
-    logo: "/onword.png",
-    description: [
-      "•	Built a business-focused social networking app with React, GraphQL, Styled Components, and Material UI, ensuring responsiveness across devices.",
-      "•	Optimized application performance with lazy loading and efficient image-handling techniques, reducing load times significantly.",
-      "•	Managed API development with Express.js and MongoDB, enabling seamless real-time data handling.",
-    ],
-    bgColor: "rgb(77,219,216)",
-  },
-  {
     company: "S&P Global",
     position: "Front End Developer",
     duration: "01/2022 - 12/2024",
@@ -116,6 +104,18 @@ export const experience = [
       "•	Awarded the H2 2022 Essential Excellence Award for delivering data visualization dashboards and analytics solutions.",
     ],
     bgColor: "rgb(215,0,42)",
+  },
+  {
+    company: "Onword",
+    position: "Full Stack Developer",
+    duration: "08/2020 - 12/2021",
+    logo: "/onword.png",
+    description: [
+      "•	Built a business-focused social networking app with React, GraphQL, Styled Components, and Material UI, ensuring responsiveness across devices.",
+      "•	Optimized application performance with lazy loading and efficient image-handling techniques, reducing load times significantly.",
+      "•	Managed API development with Express.js and MongoDB, enabling seamless real-time data handling.",
+    ],
+    bgColor: "rgb(77,219,216)",
   },
   {
     company: "Ontario Ministry of Children, Community and Social Services",

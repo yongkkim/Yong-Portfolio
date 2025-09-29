@@ -16,18 +16,19 @@ interface expObject {
 
 export default function ExperienceCard() {
   const { toggleIsClicked, setSelectedContent } = useStore();
-  const [experience, updateExperience] =
-    useState<Array<expObject>>(experienceData);
+  const [experience, updateExperience] = useState<Array<expObject>>([
+    experienceData[experienceData.length - 1],
+    ...experienceData.slice(0, -1),
+  ]);
   const [isHovered, setIsHovered] = useState<boolean>(false);
-
   const middleIndex = Math.floor(experience.length / 2);
 
   const rotateLeft = () => {
-    updateExperience((prev) => [...prev.slice(1), prev[0]]);
+    updateExperience((prev) => [prev[prev.length - 1], ...prev.slice(0, -1)]);
   };
 
   const rotateRight = () => {
-    updateExperience((prev) => [prev[prev.length - 1], ...prev.slice(0, -1)]);
+    updateExperience((prev) => [...prev.slice(1), prev[0]]);
   };
 
   const handleSelectExp = (exp: expObject) => {
