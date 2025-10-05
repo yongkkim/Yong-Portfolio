@@ -22,7 +22,7 @@ const careerInfo = {
 export const aboutInto = [beforeCollegeInfo, collegeInfo, careerInfo];
 
 export const summary =
-  "I am a front-end developer with 4+ years of experience in creating scalable, high-performance web applications. I specialize in technologies like React, Vue, Next.js, TypeScript, and Node.js, and have a strong focus on both UI/UX design and performance optimization. Throughout my career, I’ve worked on delivering intuitive data visualization solutions and improving rendering performance to enhance user experience. I am also skilled in integrating APIs seamlessly into web applications. By collaborating closely with cross-functional teams, I’ve been able to drive meaningful business outcomes and consistently deliver high-impact solutions.";
+  "I am a full-stack developer with 4+ years of experience in creating scalable, high-performance web applications. I specialize in technologies like React, Vue, Next.js, TypeScript, and Node.js, and have a strong focus on both UI/UX design and performance optimization. Throughout my career, I’ve worked on delivering intuitive data visualization solutions and improving rendering performance to enhance user experience. I am also skilled in integrating APIs seamlessly into web applications. By collaborating closely with cross-functional teams, I’ve been able to drive meaningful business outcomes and consistently deliver high-impact solutions.";
 
 export const lineSegments = [
   {
