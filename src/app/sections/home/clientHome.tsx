@@ -46,7 +46,7 @@ export default function ClientHome() {
             Hi, I&apos;m Yong Kuk Kim
           </motion.h1>
         </div>
-        <TypingEffect delay={2000} text={"FRONTEND DEVELOPER"} />
+        <TypingEffect delay={2000} text={"FULL-STACK DEVELOPER"} />
         <motion.div
           initial={{ translateY: -30, opacity: 0 }} // Start slightly above
           animate={{ translateY: 0, opacity: 1 }} // Drop into place
