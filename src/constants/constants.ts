@@ -224,5 +224,6 @@ export const skills = {
     "• Jenkins",
     "• Figma",
     "• InVision",
+    "• AWS Amplify",
   ],
 };
